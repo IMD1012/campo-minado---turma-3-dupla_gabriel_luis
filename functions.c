@@ -53,7 +53,6 @@ void cria_campo(int *v_rand, espaco **matriz) {
       matriz[i][j].n_minas = 0;
       matriz[i][j].status = '*';
       matriz[i][j].aberto = 0;
-      matriz[i][j].bomba_mark = 0;
     }
   }
   for (int i = 0; i < 10; i++) {
@@ -792,7 +791,7 @@ void modo_ajuda(espaco **matriz, int linha, int coluna) {
       cont_b++;
     }
 
-    if(matriz[linha][coluna].n_minas == cont){
+    if(matriz[linha][coluna].n_minas == cont_b){
       if(matriz[linha - 1][coluna].aberto==0){
       printf("%d %d tiro certeiro\n", linha - 1, coluna);
     }
@@ -865,7 +864,7 @@ void modo_ajuda(espaco **matriz, int linha, int coluna) {
       cont_b++;
     }
     
-    if(matriz[linha][coluna].n_minas == cont){
+    if(matriz[linha][coluna].n_minas == cont_b){
       if (matriz[linha + 1][coluna].aberto == 0){
       printf("%d %d tiro talvez certeiro\n", linha + 1, coluna);
     }
@@ -935,7 +934,7 @@ void modo_ajuda(espaco **matriz, int linha, int coluna) {
    if (matriz[linha - 1][coluna + 1].status == 'B'){
       cont_b++;
     }
-    if(matriz[linha][coluna].n_minas == cont){
+    if(matriz[linha][coluna].n_minas == cont_b){
       if (matriz[linha - 1][coluna].aberto == 0){
        printf("%d %d tiro talvez certeiro\n", linha - 1, coluna);
     }
@@ -1010,7 +1009,7 @@ void modo_ajuda(espaco **matriz, int linha, int coluna) {
       cont_b++;
     }
 
-     if(matriz[linha][coluna].n_minas == cont){
+     if(matriz[linha][coluna].n_minas == cont_b){
       if (matriz[linha - 1][coluna].aberto == 0){
        printf("%d %d tiro talvez certeiro\n", linha - 1, coluna);
     }
@@ -1099,7 +1098,7 @@ void modo_ajuda(espaco **matriz, int linha, int coluna) {
       cont_b++;
     }
     
-    if(matriz[linha][coluna].n_minas == cont){
+    if(matriz[linha][coluna].n_minas == cont_b){
      if (matriz[linha - 1][coluna].aberto == 0){
        printf("%d %d tiro talvez certeiro\n", linha - 1, coluna);
     }
@@ -1125,7 +1124,7 @@ void modo_ajuda(espaco **matriz, int linha, int coluna) {
       printf("%d %d tiro talvez certeiro\n", linha +1 , coluna + 1);
     }
     }
-    else if(cont + cont_b == matriz[linha][coluna].n_minas){ // espaços que provavelmente são bombas
+    else if(cont + cont_b <= matriz[linha][coluna].n_minas){ // espaços que provavelmente são bombas
       if (matriz[linha - 1][coluna].aberto == 0){
        printf("%d %d é bomba\n", linha - 1, coluna);
     }
