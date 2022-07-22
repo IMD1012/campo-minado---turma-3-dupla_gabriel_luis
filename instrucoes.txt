@@ -1,0 +1,27 @@
+
+
+
+Bem vindo ao nosso jogo campo minado :)  !!!!!!
+
+No jogo haverá 40 bombas espalhadas em um campo de 10x20.
+
+O objetivo do jogo é selecionar 160 casas de maneira que nenhuma seja bomba. 
+
+É garantido ao jogador a primeira jogada! 
+
+Os números que vão aparecendo nas casas selecionadas indicam o numero de bombas ao redor do lugar. 
+
+O usuário pode optar pelo modo tradicional de jogo como também o modo autônomo jogado pela maquina. 
+
+O usuário em seu modo tradicional pode pedir ajuda a maquina como também marcar os lugares os quais ele acredita que seja bomba.
+
+O player também terá a possibilidade de checar o tempo decorrido desdá sua primeira jogada. 
+
+Com todas instruções básicas ditas, BOA SORTE!!!
+
+
+
+
+
+
+
