@@ -1124,7 +1124,7 @@ void modo_ajuda(espaco **matriz, int linha, int coluna) {
       printf("%d %d tiro talvez certeiro\n", linha +1 , coluna + 1);
     }
     }
-    else if(cont + cont_b <= matriz[linha][coluna].n_minas){ // espaços que provavelmente são bombas
+    else if(cont + cont_b == matriz[linha][coluna].n_minas){ // espaços que provavelmente são bombas
       if (matriz[linha - 1][coluna].aberto == 0){
        printf("%d %d é bomba\n", linha - 1, coluna);
     }
@@ -1722,6 +1722,7 @@ void jogar(espaco **matriz) {
       scanf("%d", &c);
       printf("\n");
       matriz[l][c].status = 'B';
+      matriz[l][c].aberto = 1;
       n_bombas--;
       printf("Numero de bombas não marcadas: %d\n", n_bombas); // Controle de quantas bombas ainda existiria para ele marcar.
       print_matriz_status(matriz);
@@ -1797,18 +1798,8 @@ void jogar(espaco **matriz) {
 void menu(espaco **matriz, int *vet_rand){
   int selecionado, linha, coluna;
   printf("              MENU\n  Jogar - 0\n  Jogar-Automaticamente - 1 \n  "
-         "Instrucoes - 2 \nDigte uma das opções acima:\n  ");
+         "Digte uma das opções acima:\n  ");
   scanf("%d", &selecionado);
-  if (selecionado == 2) {
-    printf(" 1. Uma mina é revelada: nesse caso, o jogo encerra com a derrota "
-           "do usuário;\n 2. Um número é revelado: o valor indica a quantidade "
-           "de minas adjacentes considerando as 8 células ao redor de uma "
-           "posição (vertical, horizontal e diagonais);\n 3. Uma posição vazia "
-           "é revelada: nesse caso, o jogo aplica a ação revelar sobre todas "
-           "as células adjacentes a essa posição, visto que ela não possui "
-           "minas adjacentes.");
-    menu(matriz,vet_rand);
-  }
   if (selecionado == 0) {
     vet_rand = malloc(sizeof(int) * 40);
 
