@@ -1153,11 +1153,13 @@ void modo_ajuda(espaco **matriz, int linha, int coluna) {
   }
 }
 
-int modo_ajuda_auto(espaco **matriz, int linha, int coluna){
+void modo_ajuda_auto(espaco **matriz, int linha, int coluna){
   int aux;
   int cont;
+  int cont_b;
   if (linha == 0 && coluna == 0){
     cont = 0;
+    cont_b = 0;
     if (matriz[linha + 1][coluna].aberto == 0){
       cont++;
     }
@@ -1167,7 +1169,16 @@ int modo_ajuda_auto(espaco **matriz, int linha, int coluna){
    if (matriz[linha][coluna + 1].aberto == 0) {
       cont ++;
     }
-    if(cont > matriz[linha][coluna].n_minas){
+    if (matriz[linha + 1][coluna].aberto == 0){
+      cont_b++;
+    }
+    if (matriz[linha + 1][coluna + 1].aberto == 0) {
+      cont_b ++;
+    }
+   if (matriz[linha][coluna + 1].aberto == 0) {
+      cont_b ++;
+    }
+    if(cont_b = matriz[linha][coluna].n_minas){
       if (matriz[linha + 1][coluna].aberto == 0){
         aux = abri_space(matriz,linha + 1,coluna);
     }
@@ -1591,7 +1602,7 @@ int modo_ajuda_auto(espaco **matriz, int linha, int coluna){
     }
      if (matriz[linha + 1][coluna - 1].aberto == 0){
       matriz[linha + 1][coluna- 1].aberto =1;
-        matriz[linha + 1][coluna - 1].status = 'b';
+        matriz[linha + 1][coluna - 1].status = 'B';
     }
      if(matriz[linha - 1][coluna - 1].aberto == 0){
       matriz[linha - 1][coluna - 1].aberto = 1;
@@ -1615,6 +1626,7 @@ int modo_ajuda_auto(espaco **matriz, int linha, int coluna){
   }
   return aux;
 }
+
 
 
 //função responsavel por garantir que a primeira cedula não seja bomba
