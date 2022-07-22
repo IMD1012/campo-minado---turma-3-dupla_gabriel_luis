@@ -1307,7 +1307,7 @@ int modo_ajuda_auto(espaco **matriz, int linha, int coluna){
       }
       if(matriz[linha][coluna + 1].aberto == 0) {
         matriz[linha][coluna + 1].aberto = 1;
-        atriz[linha][coluna + 1].status = 'B';
+        matriz[linha][coluna + 1].status = 'B';
       }
       if(matriz[linha - 1][coluna - 1].aberto == 0){
         matriz[linha - 1][coluna - 1].aberto = 1;
