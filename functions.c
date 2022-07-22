@@ -36,11 +36,13 @@ void v_minas(int *v_rand) {
     ja_consta = 'N';
     for (int j = 0; j < i && ja_consta == 'N'; j++) {
       if (v_rand[i] == v_rand[j])
-        ja_consta = 'S';  
+        ja_consta = 'S';
+        
     }
     if (ja_consta == 'S')
       i--;
   }
+  
 }
 
 //Função responsavel por pegar o vetor criado com as posições das bombas de forma aleatoria e alocalas na matriz.
@@ -51,13 +53,14 @@ void cria_campo(int *v_rand, espaco **matriz) {
       matriz[i][j].n_minas = 0;
       matriz[i][j].status = '*';
       matriz[i][j].aberto = 0;
+      matriz[i][j].bomba_mark = 0;
     }
   }
   for (int i = 0; i < 10; i++) {
     for (int j = 0; j < 20; j++) {
       matriz[i][j].pos_sequencial = i * 20 + j;
       for (int k = 0; k < 40; k++) {
-        if(matriz[i][j].pos_sequencial == v_rand[k]) {
+        if (matriz[i][j].pos_sequencial == v_rand[k]) {
           matriz[i][j].tipo = 1;
         }
       }
@@ -273,7 +276,7 @@ void cria_camp_min(int *vet_rand, espaco **matriz) {
   verif_mina_centro(matriz);
 }
 
-// Função responsavel por abrir os espaços em branco ao redor de um valor vazio e fazer a chamada recursiva da função para abrir os vazios ao redor do vazio!
+// Função responsavel por abrir os espaços e fazer a chamada recursiva da função.
 int abri_space(espaco **matriz, int linha, int coluna) {
  
   int help = 0;
@@ -585,7 +588,6 @@ int verif_ced_abertas(espaco **matriz){
   return contador;
 }
 
-// função pra verificar o tempo de jogo!!
 void verif_tempo(time_t inicial){
   int tempo=0;
   time_t finall = time(NULL);
@@ -613,30 +615,42 @@ void verif_tempo(time_t inicial){
 //modo ajuda no qual ele da uma olhada no numero de casas não abertas ao redor dele, se esse numero de casas for maior que o numero de bombas que ele sabe que tem ao redor ele vai clicar em alguma, porem se o numero de casas ao seu redor for igual ao n de bombas ao seu redor ele vai marcar todas como aberta e bombas.
 void modo_ajuda(espaco **matriz, int linha, int coluna) {
   int cont;
+  int cont_b;
   if (linha == 0 && coluna == 0){
     cont = 0;
+     cont_b = 0;
     if (matriz[linha + 1][coluna].aberto == 0){
       cont++;
     }
     if (matriz[linha + 1][coluna + 1].aberto == 0) {
       cont ++;
     }
-    if (matriz[linha][coluna + 1].aberto == 0) {
+   if (matriz[linha][coluna + 1].aberto == 0) {
       cont ++;
     }
-    if(cont > matriz[linha][coluna].n_minas){
+    if (matriz[linha + 1][coluna].status == 'B'){
+      cont_b++;
+    }
+    if (matriz[linha + 1][coluna + 1].status == 'B') {
+      cont_b ++;
+    }
+   if (matriz[linha][coluna + 1].status == 'B') {
+      cont_b ++;
+    }
+    
+    if(matriz[linha][coluna].n_minas == cont_b){
       if (matriz[linha + 1][coluna].aberto == 0){
-        printf("%d %d tiro talvez certeiro", linha +1, coluna);
-      }
-      else if (matriz[linha + 1][coluna + 1].aberto == 0) {
-        printf("%d %d tiro talvez certeiro", linha +1, coluna +1);
-      }
-      else if (matriz[linha][coluna + 1].aberto == 0) {
-        printf("%d %d tiro talvez certeiro", linha, coluna +1);
-      }
+      printf("%d %d tiro talvez certeiro", linha +1, coluna);
+    }
+    else if (matriz[linha + 1][coluna + 1].aberto == 0) {
+      printf("%d %d tiro talvez certeiro", linha +1, coluna +1);
+    }
+    else if (matriz[linha][coluna + 1].aberto == 0) {
+      printf("%d %d tiro talvez certeiro", linha, coluna +1);
+    }
     }
 
-    else if (cont == matriz[linha][coluna].n_minas){
+    else if (matriz[linha][coluna].n_minas == cont + cont_b){
       if (matriz[linha + 1][coluna].aberto == 0){
         printf("%d %d é bomba", linha +1, coluna);
       }
@@ -645,6 +659,538 @@ void modo_ajuda(espaco **matriz, int linha, int coluna) {
       }
       if (matriz[linha][coluna + 1].aberto == 0) {
         printf("%d %d é bomba", linha, coluna +1);
+      }
+    }
+  }
+
+  else if (linha == 9 && coluna == 0) {
+    cont = 0;
+    cont_b = 0;
+    if (matriz[linha][coluna + 1].aberto == 0) {
+      cont++;
+    }
+    if (matriz[linha - 1][coluna + 1].aberto == 0) {
+      cont++;
+    }
+    if (matriz[linha - 1][coluna - 1].aberto == 0) {
+      cont++;
+    }
+    if (matriz[linha][coluna + 1].status == 'B') {
+      cont_b++;
+    }
+    if (matriz[linha - 1][coluna + 1].status == 'B') {
+      cont_b++;
+    }
+    if (matriz[linha - 1][coluna - 1].status == 'B') {
+      cont_b++;
+    }
+    if(matriz[linha][coluna].n_minas == cont_b){
+      if (matriz[linha - 1][coluna + 1].aberto == 0) {
+      printf("%d %d tiro talvez certeiro\n", linha - 1, coluna + 1);
+    }
+    else if (matriz[linha][coluna + 1].aberto == 0) {
+      printf("%d %d tiro talvez certeiro\n", linha, coluna + 1);
+    }  
+    else if (matriz[linha - 1][coluna - 1].aberto == 0) {
+      printf("%d %d tiro talvez certeiro\n", linha - 1, coluna - 1);
+    }
+    }
+    else if (matriz[linha][coluna].n_minas == cont + cont_b){
+      if (matriz[linha - 1][coluna + 1].aberto == 0) {
+      printf("%d %d É bomba\n", linha - 1, coluna + 1);
+    }
+      if (matriz[linha][coluna + 1].aberto == 0) {
+      printf("%d %d É bomba\n", linha, coluna + 1);
+    }  
+      if (matriz[linha - 1][coluna - 1].aberto == 0) {
+      printf("%d %d É bomba\n", linha - 1, coluna - 1);
+    }
+
+
+    } 
+  } 
+  else if (linha == 9 && coluna == 19) {
+    cont = 0;
+     cont_b = 0;
+    if (matriz[linha][coluna - 1].aberto == 0) {
+      cont++;
+    }
+    if (matriz[linha - 1][coluna - 1].aberto == 0) {
+      cont++;
+    }
+    if (matriz[linha - 1][coluna].aberto == 0) {
+      cont++;
+    }
+    if (matriz[linha][coluna - 1].status == 'B') {
+      cont_b++;
+    }
+    if (matriz[linha - 1][coluna - 1].status == 'B') {
+      cont_b++;
+    }
+    if (matriz[linha - 1][coluna].status == 'B') {
+      cont_b++;
+    }
+    if(matriz[linha][coluna].n_minas == cont_b){
+    if (matriz[linha][coluna - 1].aberto == 0) {
+      printf("%d %d tiro talvez certeiro\n", linha, coluna - 1);
+    } 
+    else if (matriz[linha - 1][coluna - 1].aberto == 0) {
+      printf("%d %d tiro talvez certeiro\n", linha - 1, coluna - 1);
+    } 
+    else if (matriz[linha - 1][coluna].aberto == 0) {
+      printf("%d %d tiro talvez certeiro\n", linha - 1, coluna);
+    }
+    }
+    else if (matriz[linha][coluna].n_minas == cont + cont_b){
+      if (matriz[linha][coluna - 1].aberto == 0) {
+      printf("%d %d É bomba\n", linha, coluna - 1);
+    } 
+      if (matriz[linha - 1][coluna - 1].aberto == 0) {
+      printf("%d %d É bomba\n", linha - 1, coluna - 1);
+    } 
+      if (matriz[linha - 1][coluna].aberto == 0) {
+      printf("%d %d É bomba\n", linha - 1, coluna);
+    }
+
+
+    }
+  }
+
+
+  else if (linha > 0 && linha < 9 && coluna == 0){
+    cont = 0;
+     cont_b = 0;
+     if(matriz[linha - 1][coluna].aberto==0){
+      cont++;
+    }
+    if(matriz[linha + 1][coluna].aberto == 0){
+      cont++;
+    }
+     if (matriz[linha][coluna + 1].aberto == 0){
+      cont++;
+    }
+     if (matriz[linha + 1][coluna +1].aberto == 0){
+      cont++;
+    }
+     if (matriz[linha - 1][coluna +1].aberto == 0){
+      cont++;
+    }
+
+     if(matriz[linha - 1][coluna].status == 'B'){
+      cont_b++;
+    }
+    if(matriz[linha + 1][coluna].status == 'B'){
+      cont_b++;
+    }
+     if (matriz[linha][coluna + 1].status == 'B'){
+      cont_b++;
+    }
+     if (matriz[linha + 1][coluna +1].status == 'B'){
+      cont_b++;
+    }
+     if (matriz[linha - 1][coluna +1].status == 'B'){
+      cont_b++;
+    }
+
+    if(matriz[linha][coluna].n_minas == cont){
+      if(matriz[linha - 1][coluna].aberto==0){
+      printf("%d %d tiro certeiro\n", linha - 1, coluna);
+    }
+      else if(matriz[linha + 1][coluna].aberto == 0){
+      printf("%d %d tiro certeiro\n", linha + 1, coluna);
+    }
+      else if (matriz[linha][coluna + 1].aberto == 0){
+      printf("%d %d tiro certeiro\n", linha , coluna + 1);
+    }
+      else if (matriz[linha + 1][coluna +1].aberto == 0){
+      printf("%d %d tiro certeiro\n", linha +1 , coluna + 1);
+    }
+      else if (matriz[linha - 1][coluna +1].aberto == 0){
+      abri_space(matriz,linha-1,coluna+1);
+    }
+    }
+    else if(matriz[linha][coluna].n_minas == cont + cont_b){ //se o contador for igual ao numero de minas quer dizer que todos os espaços não abertos pelo usuario são bombas.
+      if(matriz[linha - 1][coluna].aberto==0){
+      printf("%d %d É bomba\n", linha - 1, coluna);
+    }
+      if(matriz[linha + 1][coluna].aberto == 0){
+      printf("%d %d É bomba\n", linha + 1, coluna);
+    }
+      if (matriz[linha][coluna + 1].aberto == 0){
+      printf("%d %d É bomba\n", linha , coluna + 1);
+    }
+      if (matriz[linha + 1][coluna +1].aberto == 0){
+      printf("%d %d É bomba\n", linha +1 , coluna + 1);
+    }
+      if (matriz[linha - 1][coluna +1].aberto == 0){
+      printf("%d %d É bomba\n", linha -1 , coluna + 1);
+    }
+    }   
+  }
+
+
+
+  else if (linha == 0 && coluna > 0 && coluna < 19){
+    cont = 0;
+     cont_b = 0;
+    if (matriz[linha + 1][coluna].aberto == 0){
+      cont++;
+    }
+    else if (matriz[linha][coluna + 1].aberto == 0){
+      cont++;
+    }
+    else if (matriz[linha][coluna - 1].aberto == 0){
+      cont++;
+    }
+    else if (matriz[linha + 1][coluna + 1].aberto == 0){
+      cont++;
+    }
+    else if (matriz[linha + 1][coluna - 1].aberto == 0){
+      cont++;
+    }
+
+    if (matriz[linha + 1][coluna].status == 'B'){
+      cont_b++;
+    }
+    else if (matriz[linha][coluna + 1].status == 'B'){
+      cont_b++;
+    }
+    else if (matriz[linha][coluna - 1].status == 'B'){
+      cont_b++;
+    }
+    else if (matriz[linha + 1][coluna + 1].status == 'B'){
+      cont_b++;
+    }
+    else if (matriz[linha + 1][coluna - 1].status == 'B'){
+      cont_b++;
+    }
+    
+    if(matriz[linha][coluna].n_minas == cont){
+      if (matriz[linha + 1][coluna].aberto == 0){
+      printf("%d %d tiro talvez certeiro\n", linha + 1, coluna);
+    }
+      else if (matriz[linha][coluna + 1].aberto == 0){
+      printf("%d %d tiro talvez certeiro\n", linha , coluna + 1);
+    }
+      else if (matriz[linha][coluna - 1].aberto == 0){
+      printf("%d %d tiro talvez certeiro\n", linha, coluna - 1);
+    }
+      else if (matriz[linha + 1][coluna + 1].aberto == 0){
+      printf("%d %d tiro talvez certeiro\n", linha +1 , coluna + 1);
+    }
+      else if (matriz[linha + 1][coluna - 1].aberto == 0){
+      printf("%d %d tiro talvez certeiro\n", linha + 1, coluna - 1);
+    }
+    }
+    else if (cont+cont_b == matriz[linha][coluna].n_minas){
+      if (matriz[linha + 1][coluna].aberto == 0){
+      printf("%d %d é bomba\n", linha + 1, coluna);
+    }
+      if (matriz[linha][coluna + 1].aberto == 0){
+      printf("%d %d é bomba\n", linha , coluna + 1);
+    }
+      if (matriz[linha][coluna - 1].aberto == 0){
+      printf("%d %d é bomba\n", linha, coluna - 1);
+    }
+      if (matriz[linha + 1][coluna + 1].aberto == 0){
+      printf("%d %d é bomba\n", linha +1 , coluna + 1);
+    }
+      if (matriz[linha + 1][coluna - 1].aberto == 0){
+      printf("%d %d é bomba\n", linha + 1, coluna - 1);
+    }
+    }
+  }
+
+  else if (linha == 9 && coluna > 0 && coluna < 19){
+    cont = 0;
+     cont_b = 0;
+    if (matriz[linha - 1][coluna].aberto == 0){
+       cont++;
+    }
+   if (matriz[linha][coluna - 1].aberto == 0){
+      cont++;
+    }
+   if(matriz[linha][coluna + 1].aberto == 0) {
+      cont++;
+    }
+   if(matriz[linha - 1][coluna - 1].aberto == 0){
+      cont++;
+    }
+   if (matriz[linha - 1][coluna + 1].aberto == 0){
+      cont++;
+    }
+
+    if (matriz[linha - 1][coluna].status == 'B'){
+       cont_b++;
+    }
+   if (matriz[linha][coluna - 1].status == 'B'){
+      cont_b++;
+    }
+   if(matriz[linha][coluna + 1].status == 'B') {
+      cont_b++;
+    }
+   if(matriz[linha - 1][coluna - 1].status == 'B'){
+      cont_b++;
+    }
+   if (matriz[linha - 1][coluna + 1].status == 'B'){
+      cont_b++;
+    }
+    if(matriz[linha][coluna].n_minas == cont){
+      if (matriz[linha - 1][coluna].aberto == 0){
+       printf("%d %d tiro talvez certeiro\n", linha - 1, coluna);
+    }
+      else if (matriz[linha][coluna - 1].aberto == 0){
+      printf("%d %d tiro talvez certeiro\n", linha, coluna - 1);
+    }
+      else if(matriz[linha][coluna + 1].aberto == 0) {
+      printf("%d %d tiro talvez certeiro\n", linha , coluna + 1);
+    }
+      else if(matriz[linha - 1][coluna - 1].aberto == 0){
+      printf("%d %d tiro talvez certeiro\n", linha - 1, coluna - 1);
+    }
+      else if (matriz[linha - 1][coluna + 1].aberto == 0){
+      printf("%d %d tiro talvez certeiro\n", linha -1 , coluna + 1);
+    }
+    }
+    else if (cont + cont_b == matriz[linha][coluna].n_minas){
+      if (matriz[linha - 1][coluna].aberto == 0){
+       printf("%d %d É bomba\n", linha - 1, coluna);
+    }
+       if (matriz[linha][coluna - 1].aberto == 0){
+      printf("%d %d É bomba\n", linha, coluna - 1);
+    }
+       if(matriz[linha][coluna + 1].aberto == 0) {
+      printf("%d %d É bomba\n", linha , coluna + 1);
+    }
+       if(matriz[linha - 1][coluna - 1].aberto == 0){
+      printf("%d %d É bomba\n", linha - 1, coluna - 1);
+    }
+       if (matriz[linha - 1][coluna + 1].aberto == 0){
+      printf("%d %d É bomba\n", linha - 1, coluna + 1);
+    }
+    }
+  }
+
+
+
+
+
+  else if (linha > 0 && linha < 9 && coluna == 19){
+    cont = 0;
+     cont_b = 0;
+     if (matriz[linha - 1][coluna].aberto == 0){
+       cont++;
+    }
+     if (matriz[linha + 1][coluna].aberto == 0){
+      cont++;
+    }
+     if (matriz[linha][coluna - 1].aberto == 0){
+      cont++;
+    }
+     if (matriz[linha + 1][coluna - 1].aberto == 0){
+      cont++;
+    }
+     if(matriz[linha - 1][coluna - 1].aberto == 0){
+      cont++;
+    }
+
+    if (matriz[linha - 1][coluna].status == 'B'){
+      cont_b++;
+    }
+     if (matriz[linha + 1][coluna].status == 'B'){
+      cont_b++;
+    }
+     if (matriz[linha][coluna - 1].status == 'B'){
+      cont_b++;
+    }
+     if (matriz[linha + 1][coluna - 1].status == 'B'){
+      cont_b++;
+    }
+     if(matriz[linha - 1][coluna - 1].status == 'B'){
+      cont_b++;
+    }
+
+     if(matriz[linha][coluna].n_minas == cont){
+      if (matriz[linha - 1][coluna].aberto == 0){
+       printf("%d %d tiro talvez certeiro\n", linha - 1, coluna);
+    }
+      else if (matriz[linha + 1][coluna].aberto == 0){
+        printf("%d %d tiro talvez certeiro\n", linha + 1, coluna);
+    }
+      else if (matriz[linha][coluna - 1].aberto == 0){
+        printf("%d %d tiro talvez certeiro\n", linha, coluna - 1);
+    }
+      else if (matriz[linha + 1][coluna - 1].aberto == 0){
+        printf("%d %d tiro talvez certeiro\n", linha + 1, coluna - 1);
+    }
+      else if(matriz[linha - 1][coluna - 1].aberto == 0){
+        printf("%d %d tiro talvez certeiro\n", linha - 1, coluna - 1);
+    }
+    }
+    else if (cont + cont_b == matriz[linha][coluna].n_minas){
+      if (matriz[linha - 1][coluna].aberto == 0){
+       printf("%d %d é bomba\n", linha - 1, coluna);
+      }
+      if (matriz[linha + 1][coluna].aberto == 0){
+        printf("%d %d é bomba\n", linha + 1, coluna);
+      }
+      if (matriz[linha][coluna - 1].aberto == 0){
+        printf("%d %d é bomba\n", linha, coluna - 1);
+      }
+      if (matriz[linha + 1][coluna - 1].aberto == 0){
+        printf("%d %d é bomba\n", linha + 1, coluna - 1);
+      }
+      if(matriz[linha - 1][coluna - 1].aberto == 0){
+        printf("%d %d é bomba\n", linha - 1, coluna - 1);
+      }
+    }
+
+  }
+  else{
+    cont = 0;
+    cont_b = 0;
+      if (matriz[linha - 1][coluna].aberto == 0){
+       cont++;
+    }
+     if (matriz[linha + 1][coluna].aberto == 0){
+      cont++;
+    }
+     if (matriz[linha][coluna - 1].aberto == 0){
+      cont++;
+    }
+     if(matriz[linha][coluna + 1].aberto == 0) {
+      cont++;
+    }
+     if (matriz[linha + 1][coluna - 1].aberto == 0){
+      cont++;
+    }
+     if(matriz[linha - 1][coluna - 1].aberto == 0){
+      cont++;
+    }
+      if (matriz[linha - 1][coluna + 1].aberto == 0){
+      cont++;
+    }
+      if (matriz[linha + 1][coluna + 1].aberto == 0){
+      cont++;
+    }
+
+      if (matriz[linha - 1][coluna].status == 'B'){
+       cont_b++;
+    }
+     if (matriz[linha + 1][coluna].status == 'B'){
+      cont_b++;
+    }
+     if (matriz[linha][coluna - 1].status == 'B'){
+      cont_b++;
+    }
+     if(matriz[linha][coluna + 1].status == 'B') {
+      cont_b++;
+    }
+     if (matriz[linha + 1][coluna - 1].status == 'B'){
+      cont_b++;
+    }
+     if(matriz[linha - 1][coluna - 1].status == 'B'){
+      cont_b++;
+    }
+      if (matriz[linha - 1][coluna + 1].status == 'B'){
+      cont_b++;
+    }
+      if (matriz[linha + 1][coluna + 1].status == 'B'){
+      cont_b++;
+    }
+    
+    if(matriz[linha][coluna].n_minas == cont){
+     if (matriz[linha - 1][coluna].aberto == 0){
+       printf("%d %d tiro talvez certeiro\n", linha - 1, coluna);
+    }
+    else if (matriz[linha + 1][coluna].aberto == 0){
+      printf("%d %d tiro talvez certeiro\n", linha + 1, coluna);
+    }
+    else if (matriz[linha][coluna - 1].aberto == 0){
+      printf("%d %d tiro talvez certeiro\n", linha, coluna - 1);
+    }
+    else if(matriz[linha][coluna + 1].aberto == 0) {
+      printf("%d %d tiro talvez certeiro\n", linha , coluna + 1);
+    }
+    else if (matriz[linha + 1][coluna - 1].aberto == 0){
+      printf("%d %d tiro talvez certeiro\n", linha + 1, coluna - 1);
+    }
+    else if(matriz[linha - 1][coluna - 1].aberto == 0){
+      printf("%d %d tiro talvez certeiro\n", linha - 1, coluna - 1);
+    }
+     else if (matriz[linha - 1][coluna + 1].aberto == 0){
+      printf("%d %d tiro talvez certeiro\n", linha -1 , coluna + 1);
+    }
+     else if (matriz[linha + 1][coluna + 1].aberto == 0){
+      printf("%d %d tiro talvez certeiro\n", linha +1 , coluna + 1);
+    }
+    }
+    else if(cont + cont_b == matriz[linha][coluna].n_minas){ // espaços que provavelmente são bombas
+      if (matriz[linha - 1][coluna].aberto == 0){
+       printf("%d %d é bomba\n", linha - 1, coluna);
+    }
+      if (matriz[linha + 1][coluna].aberto == 0){
+      printf("%d %d é bomba\n", linha + 1, coluna);
+    }
+     if (matriz[linha][coluna - 1].aberto == 0){
+      printf("%d %d é bomba\n", linha, coluna - 1);
+    }
+     if(matriz[linha][coluna + 1].aberto == 0) {
+      printf("%d %d é bomba\n", linha , coluna + 1);
+    }
+     if (matriz[linha + 1][coluna - 1].aberto == 0){
+      printf("%d %d é bomba\n", linha + 1, coluna - 1);
+    }
+     if(matriz[linha - 1][coluna - 1].aberto == 0){
+      printf("%d %d é bomba\n", linha - 1, coluna - 1);
+    }
+      if (matriz[linha - 1][coluna + 1].aberto == 0){
+      printf("%d %d É bomba\n", linha - 1, coluna + 1);
+    }
+      if (matriz[linha + 1][coluna + 1].aberto == 0){
+      printf("%d %d é bomba\n", linha +1 , coluna + 1);
+    }
+    }
+  }
+}
+
+int modo_ajuda_auto(espaco **matriz, int linha, int coluna){
+  int aux;
+  int cont;
+  if (linha == 0 && coluna == 0){
+    cont = 0;
+    if (matriz[linha + 1][coluna].aberto == 0){
+      cont++;
+    }
+    if (matriz[linha + 1][coluna + 1].aberto == 0) {
+      cont ++;
+    }
+   if (matriz[linha][coluna + 1].aberto == 0) {
+      cont ++;
+    }
+    if(cont > matriz[linha][coluna].n_minas){
+      if (matriz[linha + 1][coluna].aberto == 0){
+        aux = abri_space(matriz,linha + 1,coluna);
+    }
+    else if (matriz[linha + 1][coluna + 1].aberto == 0) {
+      aux = abri_space(matriz,linha + 1,coluna+1);
+    }
+    else if (matriz[linha][coluna + 1].aberto == 0) {
+      aux = abri_space(matriz,linha,coluna+1);
+    }
+    }
+    else if (cont == matriz[linha][coluna].n_minas){
+      if (matriz[linha + 1][coluna].aberto == 0){
+        matriz[linha + 1][coluna].aberto = 1;
+        matriz[linha + 1][coluna].status = 'B';
+      }
+      if (matriz[linha + 1][coluna + 1].aberto == 0) {
+        matriz[linha + 1][coluna + 1].aberto = 1;
+        matriz[linha + 1][coluna + 1].status = 'B';
+      }
+      if (matriz[linha][coluna + 1].aberto == 0) {
+       matriz[linha][coluna + 1].aberto = 1;
+       matriz[linha][coluna + 1].status = 'B';
       }
     }
   }
@@ -662,27 +1208,32 @@ void modo_ajuda(espaco **matriz, int linha, int coluna) {
     }
     if(cont > matriz[linha][coluna].n_minas){
       if (matriz[linha - 1][coluna + 1].aberto == 0) {
-        printf("%d %d tiro talvez certeiro\n", linha - 1, coluna + 1);
-      }
-      else if (matriz[linha][coluna + 1].aberto == 0) {
-        printf("%d %d tiro talvez certeiro\n", linha, coluna + 1);
-      }  
-      else if (matriz[linha - 1][coluna - 1].aberto == 0) {
-        printf("%d %d tiro talvez certeiro\n", linha - 1, coluna - 1);
-      }
+      aux = abri_space(matriz,linha-1,coluna+1);
+    }
+    else if (matriz[linha][coluna + 1].aberto == 0) {
+      aux = abri_space(matriz,linha,coluna+1);
+    }  
+    else if (matriz[linha - 1][coluna - 1].aberto == 0) {
+       aux = abri_space(matriz,linha-1,coluna-1);
+    }
     }
     else if (cont == matriz[linha][coluna].n_minas){
       if (matriz[linha - 1][coluna + 1].aberto == 0) {
-        printf("%d %d É bomba\n", linha - 1, coluna + 1);
-      }
+        matriz[linha - 1][coluna + 1].aberto = 1;
+        matriz[linha - 1][coluna + 1].status = 'B';
+    }
       if (matriz[linha][coluna + 1].aberto == 0) {
-        printf("%d %d É bomba\n", linha, coluna + 1);
-      }  
+       matriz[linha][coluna + 1].aberto = 1;
+       matriz[linha][coluna + 1].status = 'B';
+    }  
       if (matriz[linha - 1][coluna - 1].aberto == 0) {
-        printf("%d %d É bomba\n", linha - 1, coluna - 1);
-      }
+        matriz[linha - 1][coluna - 1].aberto = 1;
+        matriz[linha - 1][coluna - 1].status = 'B';
+    }
+
     } 
   } 
+  
   else if (linha == 9 && coluna == 19) {
     cont = 0;
     if (matriz[linha][coluna - 1].aberto == 0) {
@@ -695,25 +1246,28 @@ void modo_ajuda(espaco **matriz, int linha, int coluna) {
       cont++;
     }
     if(cont > matriz[linha][coluna].n_minas){
-      if (matriz[linha][coluna - 1].aberto == 0) {
-        printf("%d %d tiro talvez certeiro\n", linha, coluna - 1);
-      } 
-      else if (matriz[linha - 1][coluna - 1].aberto == 0) {
-        printf("%d %d tiro talvez certeiro\n", linha - 1, coluna - 1);
-      }  
-      else if (matriz[linha - 1][coluna].aberto == 0) {
-        printf("%d %d tiro talvez certeiro\n", linha - 1, coluna);
-      }
+    if (matriz[linha][coluna - 1].aberto == 0) {
+      aux = abri_space(matriz,linha,coluna-1);
+    } 
+    else if (matriz[linha - 1][coluna - 1].aberto == 0) {
+       aux = abri_space(matriz,linha-1,coluna-1);
+    } 
+    else if (matriz[linha - 1][coluna].aberto == 0) {
+      aux = abri_space(matriz,linha-1,coluna);
+    }
     }
     else if (cont == matriz[linha][coluna].n_minas){
       if (matriz[linha][coluna - 1].aberto == 0) {
-        printf("%d %d É bomba\n", linha, coluna - 1);
+        matriz[linha ][coluna - 1].aberto = 1;
+        matriz[linha ][coluna - 1].status = 'B';
     } 
       if (matriz[linha - 1][coluna - 1].aberto == 0) {
-        printf("%d %d É bomba\n", linha - 1, coluna - 1);
+        matriz[linha - 1][coluna - 1].aberto = 1;
+        matriz[linha - 1][coluna - 1].status = 'B';
     } 
       if (matriz[linha - 1][coluna].aberto == 0) {
-        printf("%d %d É bomba\n", linha - 1, coluna);
+        matriz[linha - 1][coluna].aberto = 1;
+        matriz[linha - 1][coluna ].status = 'B';
     }
 
 
@@ -741,37 +1295,42 @@ void modo_ajuda(espaco **matriz, int linha, int coluna) {
 
     if(cont > matriz[linha][coluna].n_minas){
       if(matriz[linha - 1][coluna].aberto==0){
-        printf("%d %d tiro certeiro\n", linha - 1, coluna);
-      }
+      aux = abri_space(matriz,linha-1,coluna);
+    }
       else if(matriz[linha + 1][coluna].aberto == 0){
-        printf("%d %d tiro certeiro\n", linha + 1, coluna);
-      }
+      aux = abri_space(matriz,linha+1,coluna);
+    }
       else if (matriz[linha][coluna + 1].aberto == 0){
-        printf("%d %d tiro certeiro\n", linha , coluna + 1);
-      }
+      aux = abri_space(matriz,linha,coluna+1);
+    }
       else if (matriz[linha + 1][coluna +1].aberto == 0){
-        printf("%d %d tiro certeiro\n", linha +1 , coluna + 1);
-      }
+      aux = abri_space(matriz,linha+1,coluna+1);
+    }
       else if (matriz[linha - 1][coluna +1].aberto == 0){
-        abri_space(matriz,linha-1,coluna+1);
-      }
+      aux = abri_space(matriz,linha-1,coluna+1);
+    }
     }
     else if(cont ==  matriz[linha][coluna].n_minas){ //se o contador for igual ao numero de minas quer dizer que todos os espaços não abertos pelo usuario são bombas.
       if(matriz[linha - 1][coluna].aberto==0){
-      printf("%d %d É bomba\n", linha - 1, coluna);
-      }
+      matriz[linha - 1][coluna].aberto = 1;
+        matriz[linha - 1][coluna ].status = 'B';
+    }
       if(matriz[linha + 1][coluna].aberto == 0){
-      printf("%d %d É bomba\n", linha + 1, coluna);
-      }
+       matriz[linha + 1][coluna].aberto = 1;
+        matriz[linha + 1][coluna].status = 'B';
+    }
       if (matriz[linha][coluna + 1].aberto == 0){
-      printf("%d %d É bomba\n", linha , coluna + 1);
-      }
+       matriz[linha][coluna + 1].aberto = 1;
+       matriz[linha][coluna + 1].status = 'B';
+    }
       if (matriz[linha + 1][coluna +1].aberto == 0){
-      printf("%d %d É bomba\n", linha +1 , coluna + 1);
-      }
+      matriz[linha+1][coluna + 1].aberto = 1;
+       matriz[linha+1][coluna + 1].status = 'B';
+    }
       if (matriz[linha - 1][coluna +1].aberto == 0){
-      printf("%d %d É bomba\n", linha -1 , coluna + 1);
-      }
+       matriz[linha-1][coluna + 1].aberto = 1;
+       matriz[linha-1][coluna + 1].status = 'B';
+    }
     }   
   }
 
@@ -797,37 +1356,45 @@ void modo_ajuda(espaco **matriz, int linha, int coluna) {
     
     if(cont > matriz[linha][coluna].n_minas){
       if (matriz[linha + 1][coluna].aberto == 0){
-        printf("%d %d tiro talvez certeiro\n", linha + 1, coluna);
-      }
+      aux = abri_space(matriz,linha+1,coluna);
+    }
       else if (matriz[linha][coluna + 1].aberto == 0){
-        printf("%d %d tiro talvez certeiro\n", linha , coluna + 1);
-      }
+      aux = abri_space(matriz,linha,coluna+1);
+    }
       else if (matriz[linha][coluna - 1].aberto == 0){
-        printf("%d %d tiro talvez certeiro\n", linha, coluna - 1);
-      }
+      aux = abri_space(matriz,linha,coluna-1);
+    }
       else if (matriz[linha + 1][coluna + 1].aberto == 0){
-        printf("%d %d tiro talvez certeiro\n", linha +1 , coluna + 1);
-      }
+      aux = abri_space(matriz,linha+1,coluna+1);
+    }
       else if (matriz[linha + 1][coluna - 1].aberto == 0){
-        printf("%d %d tiro talvez certeiro\n", linha + 1, coluna - 1);
-      }
+      aux = abri_space(matriz,linha+1,coluna-1);
+    }
     }
     else if (cont == matriz[linha][coluna].n_minas){
       if (matriz[linha + 1][coluna].aberto == 0){
-        printf("%d %d é bomba\n", linha + 1, coluna);
-      }
+        matriz[linha + 1][coluna].aberto = 1;
+        matriz[linha + 1][coluna].status = 'B';
+    }
       if (matriz[linha][coluna + 1].aberto == 0){
-        printf("%d %d é bomba\n", linha , coluna + 1);
-      } 
+       matriz[linha][coluna + 1].aberto = 1;
+       matriz[linha][coluna + 1].status = 'B';
+    }
       if (matriz[linha][coluna - 1].aberto == 0){
-        printf("%d %d é bomba\n", linha, coluna - 1);
-      }
+      matriz[linha ][coluna - 1].aberto = 1;
+        matriz[linha ][coluna - 1].status = 'B';
+    }
       if (matriz[linha + 1][coluna + 1].aberto == 0){
-        printf("%d %d é bomba\n", linha +1 , coluna + 1);
-      }
+        matriz[linha + 1][coluna + 1].aberto = 1;
+        matriz[linha + 1][coluna + 1].status = 'B';
+    }
       if (matriz[linha + 1][coluna - 1].aberto == 0){
-        printf("%d %d é bomba\n", linha + 1, coluna - 1);
-      }
+      matriz[linha + 1][coluna- 1].aberto = 1;
+        matriz[linha + 1][coluna - 1].status = 'b';
+    }
+
+
+
     }
     
   }
@@ -837,51 +1404,56 @@ void modo_ajuda(espaco **matriz, int linha, int coluna) {
     if (matriz[linha - 1][coluna].aberto == 0){
        cont++;
     }
-    if (matriz[linha][coluna - 1].aberto == 0){
+   if (matriz[linha][coluna - 1].aberto == 0){
       cont++;
     }
-    if(matriz[linha][coluna + 1].aberto == 0) {
+   if(matriz[linha][coluna + 1].aberto == 0) {
       cont++;
     }
-    if(matriz[linha - 1][coluna - 1].aberto == 0){
+   if(matriz[linha - 1][coluna - 1].aberto == 0){
       cont++;
     }
-    if (matriz[linha - 1][coluna + 1].aberto == 0){
+   if (matriz[linha - 1][coluna + 1].aberto == 0){
       cont++;
     }
     if(cont > matriz[linha][coluna].n_minas){
       if (matriz[linha - 1][coluna].aberto == 0){
-        printf("%d %d tiro talvez certeiro\n", linha - 1, coluna);
-      }
+       aux = abri_space(matriz,linha-1,coluna);
+    }
       else if (matriz[linha][coluna - 1].aberto == 0){
-        printf("%d %d tiro talvez certeiro\n", linha, coluna - 1);
-      }
+      aux = abri_space(matriz,linha,coluna-1);
+    }
       else if(matriz[linha][coluna + 1].aberto == 0) {
-        printf("%d %d tiro talvez certeiro\n", linha , coluna + 1);
-      }
+      aux = abri_space(matriz,linha,coluna+1);
+    }
       else if(matriz[linha - 1][coluna - 1].aberto == 0){
-        printf("%d %d tiro talvez certeiro\n", linha - 1, coluna - 1);
-      }
+       aux = abri_space(matriz,linha-1,coluna-1);
+    }
       else if (matriz[linha - 1][coluna + 1].aberto == 0){
-        printf("%d %d tiro talvez certeiro\n", linha -1 , coluna + 1);
-      }
+      aux = abri_space(matriz,linha-1,coluna+1);
+    }
     }
     else if (cont == matriz[linha][coluna].n_minas){
       if (matriz[linha - 1][coluna].aberto == 0){
-       printf("%d %d É bomba\n", linha - 1, coluna);
-      }
-      if (matriz[linha][coluna - 1].aberto == 0){
-        printf("%d %d É bomba\n", linha, coluna - 1);
-      }
-      if(matriz[linha][coluna + 1].aberto == 0) {
-        printf("%d %d É bomba\n", linha , coluna + 1);
-      }
-      if(matriz[linha - 1][coluna - 1].aberto == 0){
-        printf("%d %d É bomba\n", linha - 1, coluna - 1);
-      }
-      if (matriz[linha - 1][coluna + 1].aberto == 0){
-        printf("%d %d É bomba\n", linha - 1, coluna + 1);
-      }
+       matriz[linha - 1][coluna].aberto = 1;
+        matriz[linha - 1][coluna ].status = 'B';
+    }
+       if (matriz[linha][coluna - 1].aberto == 0){
+      matriz[linha ][coluna - 1].aberto = 1;
+        matriz[linha ][coluna - 1].status = 'B';
+    }
+       if(matriz[linha][coluna + 1].aberto == 0) {
+      matriz[linha][coluna + 1].aberto = 1;
+       matriz[linha][coluna + 1].status = 'B';
+    }
+       if(matriz[linha - 1][coluna - 1].aberto == 0){
+      matriz[linha - 1][coluna - 1].aberto = 1;
+        matriz[linha - 1][coluna - 1].status = 'B';
+    }
+       if (matriz[linha - 1][coluna + 1].aberto == 0){
+        matriz[linha - 1][coluna + 1].aberto = 1;
+        matriz[linha - 1][coluna + 1].status = 'B';
+    }
     }
   }
 
@@ -891,584 +1463,149 @@ void modo_ajuda(espaco **matriz, int linha, int coluna) {
 
   else if (linha > 0 && linha < 9 && coluna == 19){
     cont = 0;
-    if (matriz[linha - 1][coluna].aberto == 0){
+     if (matriz[linha - 1][coluna].aberto == 0){
+       cont++;
+    }
+     if (matriz[linha + 1][coluna].aberto == 0){
       cont++;
     }
-    if (matriz[linha + 1][coluna].aberto == 0){
+     if (matriz[linha][coluna - 1].aberto == 0){
       cont++;
     }
-    if (matriz[linha][coluna - 1].aberto == 0){
+     if (matriz[linha + 1][coluna - 1].aberto == 0){
       cont++;
     }
-    if (matriz[linha + 1][coluna - 1].aberto == 0){
-      cont++;
-    }
-    if(matriz[linha - 1][coluna - 1].aberto == 0){
+     if(matriz[linha - 1][coluna - 1].aberto == 0){
       cont++;
     }
 
-    if(cont > matriz[linha][coluna].n_minas){
+     if(cont > matriz[linha][coluna].n_minas){
       if (matriz[linha - 1][coluna].aberto == 0){
-        printf("%d %d tiro talvez certeiro\n", linha - 1, coluna);
-      }
+       aux = abri_space(matriz,linha-1,coluna);
+    }
       else if (matriz[linha + 1][coluna].aberto == 0){
-        printf("%d %d tiro talvez certeiro\n", linha + 1, coluna);
-      }
+        aux = abri_space(matriz,linha+1,coluna);
+    }
       else if (matriz[linha][coluna - 1].aberto == 0){
-        printf("%d %d tiro talvez certeiro\n", linha, coluna - 1);
-      }
+        aux = abri_space(matriz,linha,coluna-1);
+    }
       else if (matriz[linha + 1][coluna - 1].aberto == 0){
-        printf("%d %d tiro talvez certeiro\n", linha + 1, coluna - 1);
-      }
+        aux = abri_space(matriz,linha+1,coluna-1);
+    }
       else if(matriz[linha - 1][coluna - 1].aberto == 0){
-        printf("%d %d tiro talvez certeiro\n", linha - 1, coluna - 1);
-      }
+         aux = abri_space(matriz,linha-1,coluna-1);
+    }
     }
     else if (cont == matriz[linha][coluna].n_minas){
       if (matriz[linha - 1][coluna].aberto == 0){
-        printf("%d %d é bomba\n", linha - 1, coluna);
+       matriz[linha - 1][coluna].aberto = 1;
+        matriz[linha - 1][coluna ].status = 'B';
       }
       if (matriz[linha + 1][coluna].aberto == 0){
-        printf("%d %d é bomba\n", linha + 1, coluna);
+         matriz[linha + 1][coluna].aberto =1;
+         matriz[linha + 1][coluna].status = 'B';
       }
       if (matriz[linha][coluna - 1].aberto == 0){
-        printf("%d %d é bomba\n", linha, coluna - 1);
+        matriz[linha ][coluna - 1].aberto = 1;
+        matriz[linha ][coluna - 1].status = 'B';
       }
       if (matriz[linha + 1][coluna - 1].aberto == 0){
-        printf("%d %d é bomba\n", linha + 1, coluna - 1);
+        matriz[linha + 1][coluna- 1].aberto = 1;
+        matriz[linha + 1][coluna - 1].status = 'b';
       }
       if(matriz[linha - 1][coluna - 1].aberto == 0){
-        printf("%d %d é bomba\n", linha - 1, coluna - 1);
+        matriz[linha - 1][coluna - 1].aberto = 1;
+        matriz[linha - 1][coluna - 1].status = 'B';
       }
     }
+
   }
   else{
     cont = 0;
-    if (matriz[linha - 1][coluna].aberto == 0){
+      if (matriz[linha - 1][coluna].aberto == 0){
+       cont++;
+    }
+     if (matriz[linha + 1][coluna].aberto == 0){
       cont++;
     }
-    if (matriz[linha + 1][coluna].aberto == 0){
+     if (matriz[linha][coluna - 1].aberto == 0){
       cont++;
     }
-    if (matriz[linha][coluna - 1].aberto == 0){
+     if(matriz[linha][coluna + 1].aberto == 0) {
       cont++;
     }
-    if(matriz[linha][coluna + 1].aberto == 0) {
+     if (matriz[linha + 1][coluna - 1].aberto == 0){
       cont++;
     }
-    if (matriz[linha + 1][coluna - 1].aberto == 0){
+     if(matriz[linha - 1][coluna - 1].aberto == 0){
       cont++;
     }
-    if(matriz[linha - 1][coluna - 1].aberto == 0){
+      if (matriz[linha - 1][coluna + 1].aberto == 0){
       cont++;
     }
-    if (matriz[linha - 1][coluna + 1].aberto == 0){
-      cont++;
-    }
-    if (matriz[linha + 1][coluna + 1].aberto == 0){
+      if (matriz[linha + 1][coluna + 1].aberto == 0){
       cont++;
     }
     
     if(cont > matriz[linha][coluna].n_minas){
-      if (matriz[linha - 1][coluna].aberto == 0){
-        printf("%d %d tiro talvez certeiro\n", linha - 1, coluna);
-      }
-      else if (matriz[linha + 1][coluna].aberto == 0){
-        printf("%d %d tiro talvez certeiro\n", linha + 1, coluna);
-      }
-      else if (matriz[linha][coluna - 1].aberto == 0){
-        printf("%d %d tiro talvez certeiro\n", linha, coluna - 1);
-      }
-      else if(matriz[linha][coluna + 1].aberto == 0) {
-        printf("%d %d tiro talvez certeiro\n", linha , coluna + 1);
-      }
-      else if (matriz[linha + 1][coluna - 1].aberto == 0){
-        printf("%d %d tiro talvez certeiro\n", linha + 1, coluna - 1);
-      }
-      else if(matriz[linha - 1][coluna - 1].aberto == 0){
-        printf("%d %d tiro talvez certeiro\n", linha - 1, coluna - 1);
-      }
-      else if (matriz[linha - 1][coluna + 1].aberto == 0){
-        printf("%d %d tiro talvez certeiro\n", linha -1 , coluna + 1);
-      }
-      else if (matriz[linha + 1][coluna + 1].aberto == 0){
-        printf("%d %d tiro talvez certeiro\n", linha +1 , coluna + 1);
-      }
+     if (matriz[linha - 1][coluna].aberto == 0){
+       aux = abri_space(matriz,linha-1,coluna);
     }
-    else if(cont == matriz[linha][coluna].n_minas){ // espaços que provavelmente são bombas
-      if (matriz[linha - 1][coluna].aberto == 0){
-        printf("%d %d é bomba\n", linha - 1, coluna);
-      }
-      if (matriz[linha + 1][coluna].aberto == 0){
-        printf("%d %d é bomba\n", linha + 1, coluna);
-      }
-      if (matriz[linha][coluna - 1].aberto == 0){
-        printf("%d %d é bomba\n", linha, coluna - 1);
-      }
-      if(matriz[linha][coluna + 1].aberto == 0) {
-        printf("%d %d é bomba\n", linha , coluna + 1);
-      }
-      if (matriz[linha + 1][coluna - 1].aberto == 0){
-        printf("%d %d é bomba\n", linha + 1, coluna - 1);
-      }
-      if(matriz[linha - 1][coluna - 1].aberto == 0){
-        printf("%d %d é bomba\n", linha - 1, coluna - 1);
-      }
-      if (matriz[linha - 1][coluna + 1].aberto == 0){
-        printf("%d %d É bomba\n", linha - 1, coluna + 1);
-      }
-      if (matriz[linha + 1][coluna + 1].aberto == 0){
-        printf("%d %d é bomba\n", linha +1 , coluna + 1);
-      }
-    }
-  }
-}
-
-int modo_ajuda_auto(espaco **matriz, int linha, int coluna){
-  int aux;
-  int cont;
-  if (linha == 0 && coluna == 0){
-    cont = 0;
-    if (matriz[linha + 1][coluna].aberto == 0){
-      cont++;
-    }
-    if (matriz[linha + 1][coluna + 1].aberto == 0) {
-      cont ++;
-    }
-    if (matriz[linha][coluna + 1].aberto == 0) {
-      cont ++;
-    }
-    if(cont > matriz[linha][coluna].n_minas){
-      if (matriz[linha + 1][coluna].aberto == 0){
-        aux = abri_space(matriz,linha + 1,coluna);
-      }
-      else if (matriz[linha + 1][coluna + 1].aberto == 0) {
-        aux = abri_space(matriz,linha + 1,coluna+1);
-      }
-      else if (matriz[linha][coluna + 1].aberto == 0) {
-        aux = abri_space(matriz,linha,coluna+1);
-      }
-    }
-    else if (cont == matriz[linha][coluna].n_minas){
-      if (matriz[linha + 1][coluna].aberto == 0){
-        matriz[linha + 1][coluna].aberto = 1;
-        matriz[linha + 1][coluna].status = 'B';
-      }
-      if (matriz[linha + 1][coluna + 1].aberto == 0) {
-        matriz[linha + 1][coluna + 1].aberto = 1;
-        matriz[linha + 1][coluna + 1].status = 'B';
-      }
-      if (matriz[linha][coluna + 1].aberto == 0) {
-        matriz[linha][coluna + 1].aberto = 1;
-        matriz[linha][coluna + 1].status = 'B';
-      }
-    }
-  }
-
-  else if (linha == 9 && coluna == 0) {
-    cont = 0;
-    if (matriz[linha][coluna + 1].aberto == 0) {
-      cont++;
-    }
-    if (matriz[linha - 1][coluna + 1].aberto == 0) {
-      cont++;
-    }
-    if (matriz[linha - 1][coluna - 1].aberto == 0) {
-      cont++;
-    }
-    if(cont > matriz[linha][coluna].n_minas){
-      if (matriz[linha - 1][coluna + 1].aberto == 0) {
-        aux = abri_space(matriz,linha-1,coluna+1);
-      }
-      else if (matriz[linha][coluna + 1].aberto == 0) {
-        aux = abri_space(matriz,linha,coluna+1);
-      }  
-      else if (matriz[linha - 1][coluna - 1].aberto == 0) {
-        aux = abri_space(matriz,linha-1,coluna-1);
-      }
-    }
-    else if (cont == matriz[linha][coluna].n_minas){
-      if (matriz[linha - 1][coluna + 1].aberto == 0) {
-        matriz[linha - 1][coluna + 1].aberto = 1;
-        matriz[linha - 1][coluna + 1].status = 'B';
-      }
-      if (matriz[linha][coluna + 1].aberto == 0) {
-       matriz[linha][coluna + 1].aberto = 1;
-       matriz[linha][coluna + 1].status = 'B';
-      }  
-      if (matriz[linha - 1][coluna - 1].aberto == 0) {
-        matriz[linha - 1][coluna - 1].aberto = 1;
-        matriz[linha - 1][coluna - 1].status = 'B';
-      }
-    } 
-  } 
-  
-  else if (linha == 9 && coluna == 19) {
-    cont = 0;
-    if (matriz[linha][coluna - 1].aberto == 0) {
-      cont++;
-    }
-    if (matriz[linha - 1][coluna - 1].aberto == 0) {
-      cont++;
-    }
-    if (matriz[linha - 1][coluna].aberto == 0) {
-      cont++;
-    }
-    if(cont > matriz[linha][coluna].n_minas){
-      if (matriz[linha][coluna - 1].aberto == 0) {
-        aux = abri_space(matriz,linha,coluna-1);
-      }  
-      else if (matriz[linha - 1][coluna - 1].aberto == 0) {
-        aux = abri_space(matriz,linha-1,coluna-1);
-      } 
-      else if (matriz[linha - 1][coluna].aberto == 0) {
-        aux = abri_space(matriz,linha-1,coluna);
-      }
-    }
-    else if (cont == matriz[linha][coluna].n_minas){
-      if (matriz[linha][coluna - 1].aberto == 0) {
-        matriz[linha ][coluna - 1].aberto = 1;
-        matriz[linha ][coluna - 1].status = 'B';
-      } 
-      if (matriz[linha - 1][coluna - 1].aberto == 0) {
-        matriz[linha - 1][coluna - 1].aberto = 1;
-        matriz[linha - 1][coluna - 1].status = 'B';
-      } 
-      if (matriz[linha - 1][coluna].aberto == 0) {
-        matriz[linha - 1][coluna].aberto = 1;
-        matriz[linha - 1][coluna ].status = 'B';
-      }  
-    }
-  }
-
-
-  else if (linha > 0 && linha < 9 && coluna == 0){
-    cont = 0;
-    if(matriz[linha - 1][coluna].aberto==0){
-      cont++;
-    }
-    if(matriz[linha + 1][coluna].aberto == 0){
-      cont++;
-    }
-    if (matriz[linha][coluna + 1].aberto == 0){
-      cont++;
-    }
-    if (matriz[linha + 1][coluna +1].aberto == 0){
-      cont++;
-    }
-    if (matriz[linha - 1][coluna +1].aberto == 0){
-      cont++;
-    }
-
-    if(cont > matriz[linha][coluna].n_minas){
-      if(matriz[linha - 1][coluna].aberto==0){
-        aux = abri_space(matriz,linha-1,coluna);
-      }
-      else if(matriz[linha + 1][coluna].aberto == 0){
-        aux = abri_space(matriz,linha+1,coluna);
-      }
-      else if (matriz[linha][coluna + 1].aberto == 0){
-        aux = abri_space(matriz,linha,coluna+1);
-      }
-      else if (matriz[linha + 1][coluna +1].aberto == 0){
-        aux = abri_space(matriz,linha+1,coluna+1);
-      }
-      else if (matriz[linha - 1][coluna +1].aberto == 0){
-        aux = abri_space(matriz,linha-1,coluna+1);
-      }
-    }
-    else if(cont ==  matriz[linha][coluna].n_minas){ //se o contador for igual ao numero de minas quer dizer que todos os espaços não abertos pelo usuario são bombas.
-      if(matriz[linha - 1][coluna].aberto==0){
-        matriz[linha - 1][coluna].aberto = 1;
-        matriz[linha - 1][coluna ].status = 'B';
-      }
-      if(matriz[linha + 1][coluna].aberto == 0){
-       matriz[linha + 1][coluna].aberto = 1;
-        matriz[linha + 1][coluna].status = 'B';
-      }
-      if (matriz[linha][coluna + 1].aberto == 0){
-       matriz[linha][coluna + 1].aberto = 1;
-       matriz[linha][coluna + 1].status = 'B';
-      }
-      if (matriz[linha + 1][coluna +1].aberto == 0){
-      matriz[linha+1][coluna + 1].aberto = 1;
-       matriz[linha+1][coluna + 1].status = 'B';
-      }
-      if (matriz[linha - 1][coluna +1].aberto == 0){
-       matriz[linha-1][coluna + 1].aberto = 1;
-       matriz[linha-1][coluna + 1].status = 'B';
-      }
-    }   
-  }
-
-
-
-  else if (linha == 0 && coluna > 0 && coluna < 19){
-    cont = 0;
-    if (matriz[linha + 1][coluna].aberto == 0){
-      cont++;
-    }
-    else if (matriz[linha][coluna + 1].aberto == 0){
-      cont++;
+    else if (matriz[linha + 1][coluna].aberto == 0){
+      aux = abri_space(matriz,linha+1,coluna);
     }
     else if (matriz[linha][coluna - 1].aberto == 0){
-      cont++;
+      aux = abri_space(matriz,linha,coluna-1);
     }
-    else if (matriz[linha + 1][coluna + 1].aberto == 0){
-      cont++;
+    else if(matriz[linha][coluna + 1].aberto == 0) {
+      aux = abri_space(matriz,linha,coluna+1);
     }
     else if (matriz[linha + 1][coluna - 1].aberto == 0){
-      cont++;
+      aux = abri_space(matriz,linha+1,coluna-1);
     }
-    
-    if(cont > matriz[linha][coluna].n_minas){
-      if (matriz[linha + 1][coluna].aberto == 0){
-        aux = abri_space(matriz,linha+1,coluna);
-      }
-      else if (matriz[linha][coluna + 1].aberto == 0){
-        aux = abri_space(matriz,linha,coluna+1);
-      }
-      else if (matriz[linha][coluna - 1].aberto == 0){
-        aux = abri_space(matriz,linha,coluna-1);
-      }
-      else if (matriz[linha + 1][coluna + 1].aberto == 0){
-        aux = abri_space(matriz,linha+1,coluna+1);
-      }
-      else if (matriz[linha + 1][coluna - 1].aberto == 0){
-        aux = abri_space(matriz,linha+1,coluna-1);
-      }
+    else if(matriz[linha - 1][coluna - 1].aberto == 0){
+       aux = abri_space(matriz,linha-1,coluna-1);
     }
-    else if (cont == matriz[linha][coluna].n_minas){
-      if (matriz[linha + 1][coluna].aberto == 0){
-        matriz[linha + 1][coluna].aberto = 1;
-        matriz[linha + 1][coluna].status = 'B';
-      }
-      if (matriz[linha][coluna + 1].aberto == 0){
-        matriz[linha][coluna + 1].aberto = 1;
-        matriz[linha][coluna + 1].status = 'B';
-      }
-      if (matriz[linha][coluna - 1].aberto == 0){
-        matriz[linha ][coluna - 1].aberto = 1;
-        matriz[linha ][coluna - 1].status = 'B';
-      }
-      if (matriz[linha + 1][coluna + 1].aberto == 0){
-        matriz[linha + 1][coluna + 1].aberto = 1;
-        matriz[linha + 1][coluna + 1].status = 'B';
-      }
-      if (matriz[linha + 1][coluna - 1].aberto == 0){
-        matriz[linha + 1][coluna- 1].aberto = 1;
-        matriz[linha + 1][coluna - 1].status = 'b';
-      }
-    }
-  }
-
-  else if (linha == 9 && coluna > 0 && coluna < 19){
-    cont = 0;
-    if (matriz[linha - 1][coluna].aberto == 0){
-      cont++;
-    }
-    if (matriz[linha][coluna - 1].aberto == 0){
-      cont++;
-    }
-    if(matriz[linha][coluna + 1].aberto == 0) {
-      cont++;
-    }
-    if(matriz[linha - 1][coluna - 1].aberto == 0){
-      cont++;
-    }
-    if (matriz[linha - 1][coluna + 1].aberto == 0){
-      cont++;
-    }
-    if(cont > matriz[linha][coluna].n_minas){
-      if (matriz[linha - 1][coluna].aberto == 0){
-        aux = abri_space(matriz,linha-1,coluna);
-      }
-      else if (matriz[linha][coluna - 1].aberto == 0){
-        aux = abri_space(matriz,linha,coluna-1);
-      }
-      else if(matriz[linha][coluna + 1].aberto == 0) {
-        aux = abri_space(matriz,linha,coluna+1);
-      }
-      else if(matriz[linha - 1][coluna - 1].aberto == 0){
-        aux = abri_space(matriz,linha-1,coluna-1);
-      }
-      else if (matriz[linha - 1][coluna + 1].aberto == 0){
+     else if (matriz[linha - 1][coluna + 1].aberto == 0){
         aux = abri_space(matriz,linha-1,coluna+1);
-      }
     }
-    else if (cont == matriz[linha][coluna].n_minas){
-      if (matriz[linha - 1][coluna].aberto == 0){
-        matriz[linha - 1][coluna].aberto = 1;
-        matriz[linha - 1][coluna ].status = 'B';
-      }
-      if (matriz[linha][coluna - 1].aberto == 0){
-        matriz[linha ][coluna - 1].aberto = 1;
-        matriz[linha ][coluna - 1].status = 'B';
-      }
-      if(matriz[linha][coluna + 1].aberto == 0) {
-        matriz[linha][coluna + 1].aberto = 1;
-        matriz[linha][coluna + 1].status = 'B';
-      }
-      if(matriz[linha - 1][coluna - 1].aberto == 0){
-        matriz[linha - 1][coluna - 1].aberto = 1;
-        matriz[linha - 1][coluna - 1].status = 'B';
-      }
-      if (matriz[linha - 1][coluna + 1].aberto == 0){
-        matriz[linha - 1][coluna + 1].aberto = 1;
-        matriz[linha - 1][coluna + 1].status = 'B';
-      }
+     else if (matriz[linha + 1][coluna + 1].aberto == 0){
+      aux = abri_space(matriz,linha+1,coluna+1);
     }
-  }
-
-
-
-
-
-  else if (linha > 0 && linha < 9 && coluna == 19){
-    cont = 0;
-    if (matriz[linha - 1][coluna].aberto == 0){
-      cont++;
-    }
-    if (matriz[linha + 1][coluna].aberto == 0){
-      cont++;
-    }
-    if (matriz[linha][coluna - 1].aberto == 0){
-      cont++;
-    }
-    if (matriz[linha + 1][coluna - 1].aberto == 0){
-      cont++;
-    }
-    if(matriz[linha - 1][coluna - 1].aberto == 0){
-      cont++;
-    }
-
-    if(cont > matriz[linha][coluna].n_minas){
-      if (matriz[linha - 1][coluna].aberto == 0){
-        aux = abri_space(matriz,linha-1,coluna);
-      }
-      else if (matriz[linha + 1][coluna].aberto == 0){
-        aux = abri_space(matriz,linha+1,coluna);
-      }
-      else if (matriz[linha][coluna - 1].aberto == 0){
-        aux = abri_space(matriz,linha,coluna-1);
-      }
-      else if (matriz[linha + 1][coluna - 1].aberto == 0){
-        aux = abri_space(matriz,linha+1,coluna-1);
-      }
-      else if(matriz[linha - 1][coluna - 1].aberto == 0){
-        aux = abri_space(matriz,linha-1,coluna-1);
-      }
-    }
-    else if (cont == matriz[linha][coluna].n_minas){
-      if (matriz[linha - 1][coluna].aberto == 0){
-        matriz[linha - 1][coluna].aberto = 1;
-        matriz[linha - 1][coluna ].status = 'B';
-      }
-      if (matriz[linha + 1][coluna].aberto == 0){
-        matriz[linha + 1][coluna].aberto =1;
-        matriz[linha + 1][coluna].status = 'B';
-      }
-      if (matriz[linha][coluna - 1].aberto == 0){
-        matriz[linha ][coluna - 1].aberto = 1;
-        matriz[linha ][coluna - 1].status = 'B';
-      }
-      if (matriz[linha + 1][coluna - 1].aberto == 0){
-        matriz[linha + 1][coluna- 1].aberto = 1;
-        matriz[linha + 1][coluna - 1].status = 'b';
-      }
-      if(matriz[linha - 1][coluna - 1].aberto == 0){
-        matriz[linha - 1][coluna - 1].aberto = 1;
-        matriz[linha - 1][coluna - 1].status = 'B';
-      }
-    }
-
-  }
-  else{
-    cont = 0;
-    if (matriz[linha - 1][coluna].aberto == 0){
-      cont++;
-    }
-    if (matriz[linha + 1][coluna].aberto == 0){
-      cont++;
-    }
-    if (matriz[linha][coluna - 1].aberto == 0){
-      cont++;
-    }
-    if(matriz[linha][coluna + 1].aberto == 0) {
-      cont++;
-    }
-    if (matriz[linha + 1][coluna - 1].aberto == 0){
-      cont++;
-    }
-    if(matriz[linha - 1][coluna - 1].aberto == 0){
-      cont++;
-    }
-    if (matriz[linha - 1][coluna + 1].aberto == 0){
-      cont++;
-    }
-    if (matriz[linha + 1][coluna + 1].aberto == 0){
-      cont++;
-    }
-    
-    if(cont > matriz[linha][coluna].n_minas){
-      if (matriz[linha - 1][coluna].aberto == 0){
-        aux = abri_space(matriz,linha-1,coluna);
-      }
-      else if (matriz[linha + 1][coluna].aberto == 0){
-        aux = abri_space(matriz,linha+1,coluna);
-      }
-      else if (matriz[linha][coluna - 1].aberto == 0){
-        aux = abri_space(matriz,linha,coluna-1);
-      }
-      else if(matriz[linha][coluna + 1].aberto == 0) {
-        aux = abri_space(matriz,linha,coluna+1);
-      }
-      else if (matriz[linha + 1][coluna - 1].aberto == 0){
-        aux = abri_space(matriz,linha+1,coluna-1);
-      }
-      else if(matriz[linha - 1][coluna - 1].aberto == 0){
-        aux = abri_space(matriz,linha-1,coluna-1);
-      }
-      else if (matriz[linha - 1][coluna + 1].aberto == 0){
-        aux = abri_space(matriz,linha-1,coluna+1);
-      } 
-      else if (matriz[linha + 1][coluna + 1].aberto == 0){
-        aux = abri_space(matriz,linha+1,coluna+1);
-      }
     }
     else if(cont == matriz[linha][coluna].n_minas){ // espaços que provavelmente são bombas
       if (matriz[linha - 1][coluna].aberto == 0){
-        matriz[linha - 1][coluna].aberto = 1;
+       matriz[linha - 1][coluna].aberto = 1;
         matriz[linha - 1][coluna ].status = 'B';
-      }
+    }
       if (matriz[linha + 1][coluna].aberto == 0){
         matriz[linha + 1][coluna].aberto = 1;
         matriz[linha + 1][coluna].status = 'B';
-      }
-      if (matriz[linha][coluna - 1].aberto == 0){
-        matriz[linha ][coluna - 1].aberto = 1;
+    }
+     if (matriz[linha][coluna - 1].aberto == 0){
+      matriz[linha ][coluna - 1].aberto = 1;
         matriz[linha ][coluna - 1].status = 'B';
-      }
-      if(matriz[linha][coluna + 1].aberto == 0) {
-        matriz[linha][coluna + 1].aberto = 1;
-        matriz[linha][coluna + 1].status = 'B';
-      }
-      if (matriz[linha + 1][coluna - 1].aberto == 0){
-        matriz[linha + 1][coluna- 1].aberto =1;
+    }
+     if(matriz[linha][coluna + 1].aberto == 0) {
+       matriz[linha][coluna + 1].aberto = 1;
+       matriz[linha][coluna + 1].status = 'B';
+    }
+     if (matriz[linha + 1][coluna - 1].aberto == 0){
+      matriz[linha + 1][coluna- 1].aberto =1;
         matriz[linha + 1][coluna - 1].status = 'b';
-      }
-      if(matriz[linha - 1][coluna - 1].aberto == 0){
-        matriz[linha - 1][coluna - 1].aberto = 1;
+    }
+     if(matriz[linha - 1][coluna - 1].aberto == 0){
+      matriz[linha - 1][coluna - 1].aberto = 1;
         matriz[linha - 1][coluna - 1].status = 'B';
-      }
+    }
       if (matriz[linha - 1][coluna + 1].aberto == 0){
         matriz[linha - 1][coluna + 1].aberto = 1;
         matriz[linha - 1][coluna + 1].status = 'B';
-      }
+    }
       if (matriz[linha + 1][coluna + 1].aberto == 0){
         matriz[linha + 1][coluna + 1].aberto = 1;
         matriz[linha + 1][coluna + 1].status = 'B';
-      }
+    }
     }
   }
   if(cont == 0){
@@ -1495,10 +1632,9 @@ void implementacao(espaco **matriz,int linha, int coluna){
     abri_space(matriz,linha,coluna);
   }
 }
-// A minha ideia pro jogo automatico é o seguinte, enquanto o modo ajuda não me mandar  pos x y é um tiro certeiro, 
-// ele vai ou dar um tiro aleatorio ou verificar o modo ajudar a partir de outra celular aberta com o tipo de um numero,
-// porem eu preciso com que o modo ajuda me retorne os valores.
+
 void jogar_auto(espaco **matriz){
+
   int l;
   int c;
   int aux = 0;
@@ -1512,29 +1648,23 @@ void jogar_auto(espaco **matriz){
   printf("\n");
   
   while (aux == 0 || contador < 160) {
-    if(implemen == 0){
-      l = rand() %10;
-      c = rand() % 20;
-      implementacao(matriz,l,c);
-      contador = verif_ced_abertas(matriz);
-      printf(" %d abertas no momento\n", contador);
-      print_matriz_status(matriz);
-      printf("\n");
-      printf("\n");
-      implemen++;
-    }
-    else{
-      /*
-      l = rand() %10;
-      c = rand() % 20;
-      rintf("\n");
-      aux = modo_ajuda_auto(matriz,l,c);
-      
-      contador = verif_ced_abertas(matriz);
-      if(contador==1){
-        modo_ajuda(matriz, l, c);
+      if(implemen == 0){
+        l = rand() %10;
+        c = rand() % 20;
+        implementacao(matriz,l,c);
+        contador = verif_ced_abertas(matriz);
+        printf(" %d no momento\n", contador);
+        print_matriz_status(matriz);
+        printf("\n");
+        printf("\n");
+        implemen++;
       }
-      */
+      else{
+      l = rand() %10;
+      c = rand() % 20;
+      printf("\n");
+      aux = modo_ajuda_auto(matriz,l,c);
+      contador = verif_ced_abertas(matriz);
       if(contador >= 160){
         
         printf("PARABENS VOCÊ GANHOU!!!!\n"); //Se o jogador conseguir desbloquear 160 cedulas sem clicar em nenhuma bomba ele vence o jogo.
@@ -1547,22 +1677,22 @@ void jogar_auto(espaco **matriz){
         printf(" %d no momento\n", contador);
       
         if (aux == 0) {
-          print_matriz_status(matriz);
-          printf("\n");
-          printf("\n");
+        print_matriz_status(matriz);
+        printf("\n");
+        printf("\n");
       } else {
-          printf("BOOM\n");
-          print_matriz_status(matriz);
-          verif_tempo(inicial);
-          printf("PERDEU\n");
-          printf("Tempo de jogo: ");
-          verif_tempo(inicial);
-          printf("\n");
+        printf("BOOM\n");
+        print_matriz_status(matriz);
+        verif_tempo(inicial);
+        printf("PERDEU\n");
+        printf("Tempo de jogo: ");
+        verif_tempo(inicial);
+        printf("\n");
         break;
-        }
+      }
+      }
       }
     }
-  } 
 }
  
 
@@ -1628,45 +1758,61 @@ void jogar(espaco **matriz) {
       printf("\n");
       aux = abri_space(matriz, l, c);
       contador = verif_ced_abertas(matriz);
-        if(contador >= 160){
-          printf("PARABENS VOCÊ GANHOU!!!!\n"); //Se o jogador conseguir desbloquear 160 cedulas sem clicar em nenhuma bomba ele vence o jogo.
-          printf("Tempo de jogo: ");
-          verif_tempo(inicial);
-          printf("\n");
-          break;
-        }
-        else{
-          printf(" %d no momento\n", contador);
-      
-          if (aux == 0) {
-            print_matriz_status(matriz);
-            printf("\n");
-            printf("\n");
-          } 
-          else {
-            printf("BOOM\n");
-            print_matriz_status(matriz);
-            verif_tempo(inicial);
-            printf("PERDEU\n");
-            printf("Tempo de jogo: ");
-            verif_tempo(inicial);
-            printf("\n");
-            break;
-          }
-        }
+      if(contador >= 160){
+        
+        printf("PARABENS VOCÊ GANHOU!!!!\n"); //Se o jogador conseguir desbloquear 160 cedulas sem clicar em nenhuma bomba ele vence o jogo.
+        printf("Tempo de jogo: ");
+        verif_tempo(inicial);
+        printf("\n");
+        break;
       }
+      else{
+        printf(" %d no momento\n", contador);
+      
+        if (aux == 0) {
+        print_matriz_status(matriz);
+        printf("\n");
+        printf("\n");
+      } else {
+        printf("BOOM\n");
+        print_matriz_status(matriz);
+        verif_tempo(inicial);
+        printf("PERDEU\n");
+        printf("Tempo de jogo: ");
+        verif_tempo(inicial);
+        printf("\n");
+        break;
+      }
+
+      }
+
+      }
+
+      
     }
   }
+ 
 }
 
 
 void menu(espaco **matriz, int *vet_rand){
   int selecionado, linha, coluna;
   printf("              MENU\n  Jogar - 0\n  Jogar-Automaticamente - 1 \n  "
-         "Digte uma das opções acima:\n  ");
+         "Instrucoes - 2 \nDigte uma das opções acima:\n  ");
   scanf("%d", &selecionado);
+  if (selecionado == 2) {
+    printf(" 1. Uma mina é revelada: nesse caso, o jogo encerra com a derrota "
+           "do usuário;\n 2. Um número é revelado: o valor indica a quantidade "
+           "de minas adjacentes considerando as 8 células ao redor de uma "
+           "posição (vertical, horizontal e diagonais);\n 3. Uma posição vazia "
+           "é revelada: nesse caso, o jogo aplica a ação revelar sobre todas "
+           "as células adjacentes a essa posição, visto que ela não possui "
+           "minas adjacentes.");
+    menu(matriz,vet_rand);
+  }
   if (selecionado == 0) {
     vet_rand = malloc(sizeof(int) * 40);
+
     matriz = malloc(sizeof(espaco *) * 10);
     for (int i = 0; i < 10; i++) {
       matriz[i] = malloc(sizeof(espaco) * 20);
@@ -1676,15 +1822,19 @@ void menu(espaco **matriz, int *vet_rand){
 
     for(int i = 0; i<10; i++){
       for(int j= 0; j<20;j++){
-        printf("%d ", matriz[i][j].tipo);
-      }
-    printf("\n");
+      printf("%d ", matriz[i][j].tipo);
     }
+    printf("\n");
+  }
+    free(vet_rand);
+    
+
     // criar jogo
     jogar(matriz);
   }
   if (selecionado == 1) {
     vet_rand = malloc(sizeof(int) * 40);
+
     matriz = malloc(sizeof(espaco *) * 10);
     for (int i = 0; i < 10; i++) {
       matriz[i] = malloc(sizeof(espaco) * 20);
@@ -1694,15 +1844,14 @@ void menu(espaco **matriz, int *vet_rand){
 
     for(int i = 0; i<10; i++){
       for(int j= 0; j<20;j++){
-        printf("%d ", matriz[i][j].tipo);
+      printf("%d ", matriz[i][j].tipo);
     }
     printf("\n");
-    }
-    
+  }
+    free(vet_rand);
     jogar_auto(matriz);
   }
 
-  free(vet_rand);
   for (int i = 0; i < 10; i++) {
     free(matriz[i]);
   }
