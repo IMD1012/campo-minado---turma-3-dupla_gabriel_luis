@@ -279,291 +279,284 @@ int abri_space(espaco **matriz, int linha, int coluna) {
  
   int help = 0;
   if (matriz[linha][coluna].tipo == 0 && matriz[linha][coluna].n_minas == 0) {
-    if(linha == 0 && coluna == 0){
-      matriz[linha][coluna].status = matriz[linha][coluna].n_minas + '0';
-      matriz[linha][coluna].aberto =1;
-      matriz[linha][coluna+1].status = matriz[linha][coluna+1].n_minas + '0';
-      matriz[linha+1][coluna].status = matriz[linha+1][coluna].n_minas + '0';
-      matriz[linha+1][coluna+1].status = matriz[linha+1][coluna+1].n_minas + '0';
-      if(matriz[linha][coluna+1].tipo == 0){
-        if(matriz[linha][coluna+1].aberto == 0){
-          abri_space(matriz,linha,coluna+1);
-        };
-      }
-      if(matriz[linha+1][coluna].tipo == 0){
-        if(matriz[linha+1][coluna].aberto == 0){
-          abri_space(matriz,linha+1,coluna);
-        };
-      }
-      if(matriz[linha+1][coluna+1].tipo == 0){
-        if(matriz[linha+1][coluna+1].aberto == 0){
-          abri_space(matriz,linha+1,coluna+1);
-        };
-      }
-    }
-    else if(linha == 9 && coluna == 0){
-      matriz[linha][coluna].status = matriz[linha][coluna].n_minas + '0';
-      matriz[linha][coluna].aberto =1;
-      matriz[linha][coluna+1].status = matriz[linha][coluna+1].n_minas + '0';
-      matriz[linha-1][coluna].status = matriz[linha-1][coluna].n_minas + '0';
-      matriz[linha-1][coluna+1].status = matriz[linha-1][coluna+1].n_minas + '0';
-      if(matriz[linha][coluna+1].tipo == 0){
-        if(matriz[linha][coluna+1].aberto == 0){
-          abri_space(matriz,linha,coluna+1);
-          };
-        }
-        if(matriz[linha-1][coluna].tipo == 0){
-          if(matriz[linha-1][coluna].aberto == 0){
-            abri_space(matriz,linha-1,coluna);
-          };
-        }
-        if(matriz[linha-1][coluna+1].tipo == 0){
-          if(matriz[linha-1][coluna+1].aberto == 0){
-            abri_space(matriz,linha-1,coluna+1);
-          };
-        }
-      }
-    }
-    else if(linha == 9 && coluna == 19){
-      matriz[linha][coluna].status = matriz[linha][coluna].n_minas + '0';
-      matriz[linha][coluna].aberto =1;
-      matriz[linha][coluna-1].status = matriz[linha][coluna-1].n_minas + '0';
-      matriz[linha-1][coluna].status = matriz[linha-1][coluna].n_minas + '0';
-      matriz[linha-1][coluna-1].status = matriz[linha-1][coluna-1].n_minas + '0';
-      if(matriz[linha][coluna-1].tipo == 0){
-          if(matriz[linha][coluna-1].aberto == 0){
-          abri_space(matriz,linha,coluna-1);
-        };
-      }
-      if(matriz[linha-1][coluna].tipo == 0){
-        if(matriz[linha-1][coluna].aberto == 0){
-          abri_space(matriz,linha-1,coluna);  
-        };
-      }
-      if(matriz[linha-1][coluna-1].tipo == 0){
-        if(matriz[linha-1][coluna-1].aberto == 0){
-          abri_space(matriz,linha-1,coluna-1);  
-        };
-      }
-    }
-    else if(linha == 0 && coluna == 19){
-      matriz[linha][coluna].status = matriz[linha][coluna].n_minas + '0';
-      matriz[linha][coluna].aberto =1;
-      matriz[linha][coluna-1].status = matriz[linha][coluna-1].n_minas + '0';
-      matriz[linha+1][coluna].status = matriz[linha+1][coluna].n_minas + '0';
-      matriz[linha+1][coluna-1].status = matriz[linha+1][coluna-1].n_minas + '0';
-      if(matriz[linha][coluna-1].tipo == 0){
-        if(matriz[linha][coluna-1].aberto == 0){
-          abri_space(matriz,linha,coluna-1);
-        };
-      }
-      if(matriz[linha+1][coluna].tipo == 0){
-        if(matriz[linha+1][coluna].aberto == 0){
-          abri_space(matriz,linha+1,coluna);
-        };
-      }
-      if(matriz[linha+1][coluna-1].tipo == 0){
-        if(matriz[linha+1][coluna-1].aberto == 0){
-          abri_space(matriz,linha+1,coluna-1);          
-        };
-      }
-    }
-    else if(linha >0 &&linha <9 && coluna ==0){
-      matriz[linha][coluna].status = matriz[linha][coluna].n_minas + '0';
-      matriz[linha][coluna].aberto =1;
-      matriz[linha-1][coluna].status = matriz[linha-1][coluna].n_minas + '0';
-      matriz[linha+1][coluna].status = matriz[linha+1][coluna].n_minas + '0';
-      matriz[linha][coluna+1].status = matriz[linha][coluna+1].n_minas + '0';
-      matriz[linha+1][coluna+1].status = matriz[linha+1][coluna+1].n_minas + '0';
-      matriz[linha-1][coluna+1].status = matriz[linha-1][coluna+1].n_minas + '0';  
-        
-      if(matriz[linha-1][coluna].tipo == 0){
-        if(matriz[linha-1][coluna].aberto == 0){
-          abri_space(matriz,linha-1,coluna);
-        }; 
-      }
-      if(matriz[linha+1][coluna].tipo == 0){
-        if(matriz[linha+1][coluna].aberto == 0){
-          abri_space(matriz,linha+1,coluna);
-        };
-      }
-      if(matriz[linha][coluna+1].tipo == 0){
-        if(matriz[linha][coluna+1].aberto == 0){
-          abri_space(matriz,linha,coluna+1);          
-        };
-      }
-      if(matriz[linha+1][coluna+1].tipo == 0){
-        if(matriz[linha+1][coluna+1].aberto == 0){
-          abri_space(matriz,linha+1,coluna+1);          
-        };
-      }
-      if(matriz[linha-1][coluna+1].tipo == 0){
-        if(matriz[linha-1][coluna+1].aberto == 0){
-          abri_space(matriz,linha-1,coluna+1);
-        };
-      }  
-    }
-    else if(linha == 0 && coluna > 0 && coluna <19){
-      matriz[linha][coluna].status = matriz[linha][coluna].n_minas + '0';
-      matriz[linha][coluna].aberto =1;        
-      matriz[linha+1][coluna].status = matriz[linha+1][coluna].n_minas + '0';
-      matriz[linha][coluna+1].status = matriz[linha][coluna+1].n_minas + '0';
-      matriz[linha][coluna-1].status = matriz[linha][coluna-1].n_minas + '0';
-      matriz[linha+1][coluna+1].status = matriz[linha+1][coluna+1].n_minas + '0';
-      matriz[linha+1][coluna-1].status = matriz[linha+1][coluna-1].n_minas + '0';    
-      if(matriz[linha+1][coluna].tipo == 0){
-        if(matriz[linha+1][coluna].aberto == 0){
-          abri_space(matriz,linha+1,coluna);           
-        };
-      }
-      if(matriz[linha][coluna+1].tipo == 0){
-        if(matriz[linha][coluna+1].aberto == 0){
-          abri_space(matriz,linha,coluna+1);
-          };
-        }
-        if(matriz[linha][coluna-1].tipo == 0){
-          if(matriz[linha][coluna-1].aberto == 0){
-            abri_space(matriz,linha,coluna-1);
-          };
-        }
-        if(matriz[linha+1][coluna+1].tipo == 0){
-          if(matriz[linha+1][coluna+1].aberto == 0){
-            abri_space(matriz,linha+1,coluna+1);
-          };
-        }
-        if(matriz[linha+1][coluna-1].tipo == 0){
-          if(matriz[linha+1][coluna-1].aberto == 0){
-            abri_space(matriz,linha+1,coluna-1);
-          };
-        }
-      }
-    else if(linha == 9 && coluna > 0 && coluna <19){
-      matriz[linha][coluna].status = matriz[linha][coluna].n_minas + '0';
-      matriz[linha][coluna].aberto =1;
-      matriz[linha-1][coluna].status = matriz[linha-1][coluna].n_minas + '0';
-      matriz[linha][coluna-1].status = matriz[linha][coluna-1].n_minas + '0';
-      matriz[linha][coluna+1].status = matriz[linha][coluna+1].n_minas + '0';
-      matriz[linha-1][coluna-1].status = matriz[linha-1][coluna-1].n_minas + '0';
-      matriz[linha-1][coluna+1].status = matriz[linha-1][coluna+1].n_minas + '0';    
-      if(matriz[linha-1][coluna].tipo == 0){
-        if(matriz[linha-1][coluna].aberto == 0){
-          abri_space(matriz,linha-1,coluna);
-        };
-      }
-      if(matriz[linha][coluna-1].tipo == 0){
-        if(matriz[linha][coluna-1].aberto == 0){
-          abri_space(matriz,linha,coluna-1);
-        };
-      }
-      if(matriz[linha][coluna+1].tipo == 0){
-        if(matriz[linha][coluna+1].aberto == 0){
-          abri_space(matriz,linha,coluna+1);
-        };
-      }
-      if(matriz[linha-1][coluna-1].tipo == 0){
-        if(matriz[linha-1][coluna-1].aberto == 0){
-          abri_space(matriz,linha-1,coluna-1);
-        };
-      }
-      if(matriz[linha-1][coluna+1].tipo == 0){
-        if(matriz[linha-1][coluna+1].aberto == 0){
-          abri_space(matriz,linha-1,coluna+1);          
-        }
-      } 
-    }
-    else if(linha > 0 && linha <9 && coluna == 19){
-      matriz[linha][coluna].status = matriz[linha][coluna].n_minas + '0';
-      matriz[linha][coluna].aberto =1;
-      matriz[linha-1][coluna].status = matriz[linha-1][coluna].n_minas + '0';
-      matriz[linha+1][coluna].status = matriz[linha+1][coluna].n_minas + '0';        
-      matriz[linha][coluna-1].status = matriz[linha][coluna-1].n_minas + '0';
-      matriz[linha+1][coluna-1].status = matriz[linha+1][coluna-1].n_minas + '0';
-      matriz[linha-1][coluna-1].status = matriz[linha-1][coluna-1].n_minas + '0';    
-      if(matriz[linha-1][coluna].tipo == 0){
-        if(matriz[linha-1][coluna].aberto == 0){
-          abri_space(matriz,linha-1,coluna);
+      if(linha == 0 && coluna == 0){
+          matriz[linha][coluna].status = matriz[linha][coluna].n_minas + '0';
+          matriz[linha][coluna].aberto =1;
+          matriz[linha][coluna+1].status = matriz[linha][coluna+1].n_minas + '0';
+          matriz[linha+1][coluna].status = matriz[linha+1][coluna].n_minas + '0';
+          matriz[linha+1][coluna+1].status = matriz[linha+1][coluna+1].n_minas + '0';
+          if(matriz[linha][coluna+1].tipo == 0){
+            if(matriz[linha][coluna+1].aberto == 0){
+              abri_space(matriz,linha,coluna+1);
+            };
+          }
+          if(matriz[linha+1][coluna].tipo == 0){
+            if(matriz[linha+1][coluna].aberto == 0){
+              abri_space(matriz,linha+1,coluna);
+            };
+          }
+          if(matriz[linha+1][coluna+1].tipo == 0){
+            if(matriz[linha+1][coluna+1].aberto == 0){
+              abri_space(matriz,linha+1,coluna+1);
+            };
           }
         }
-        if(matriz[linha+1][coluna].tipo == 0){
-          if(matriz[linha+1][coluna].aberto == 0){
-            abri_space(matriz,linha+1,coluna);
+        else if(linha == 9 && coluna == 0){
+          matriz[linha][coluna].status = matriz[linha][coluna].n_minas + '0';
+          matriz[linha][coluna].aberto =1;
+          matriz[linha][coluna+1].status = matriz[linha][coluna+1].n_minas + '0';
+          matriz[linha-1][coluna].status = matriz[linha-1][coluna].n_minas + '0';
+          matriz[linha-1][coluna+1].status = matriz[linha-1][coluna+1].n_minas + '0';
+          if(matriz[linha][coluna+1].tipo == 0){
+            if(matriz[linha][coluna+1].aberto == 0){
+              abri_space(matriz,linha,coluna+1);
+            };
+          }
+          if(matriz[linha-1][coluna].tipo == 0){
+            if(matriz[linha-1][coluna].aberto == 0){
+              abri_space(matriz,linha-1,coluna);
+            };
+          }
+          if(matriz[linha-1][coluna+1].tipo == 0){
+            if(matriz[linha-1][coluna+1].aberto == 0){
+              abri_space(matriz,linha-1,coluna+1);
+            };
+          }
+        }
+        else if(linha == 9 && coluna == 19){
+          matriz[linha][coluna].status = matriz[linha][coluna].n_minas + '0';
+          matriz[linha][coluna].aberto =1;
+          matriz[linha][coluna-1].status = matriz[linha][coluna-1].n_minas + '0';
+          matriz[linha-1][coluna].status = matriz[linha-1][coluna].n_minas + '0';
+          matriz[linha-1][coluna-1].status = matriz[linha-1][coluna-1].n_minas + '0';
+          if(matriz[linha][coluna-1].tipo == 0){
+            if(matriz[linha][coluna-1].aberto == 0){
+              abri_space(matriz,linha,coluna-1);
+            };
+          }
+          if(matriz[linha-1][coluna].tipo == 0){
+            if(matriz[linha-1][coluna].aberto == 0){
+              abri_space(matriz,linha-1,coluna);
+            };
+          }
+          if(matriz[linha-1][coluna-1].tipo == 0){
+            if(matriz[linha-1][coluna-1].aberto == 0){
+              abri_space(matriz,linha-1,coluna-1);
+            };
+          }
+        }
+        else if(linha == 0 && coluna == 19){
+          matriz[linha][coluna].status = matriz[linha][coluna].n_minas + '0';
+          matriz[linha][coluna].aberto =1;
+          matriz[linha][coluna-1].status = matriz[linha][coluna-1].n_minas + '0';
+          matriz[linha+1][coluna].status = matriz[linha+1][coluna].n_minas + '0';
+          matriz[linha+1][coluna-1].status = matriz[linha+1][coluna-1].n_minas + '0';
+          if(matriz[linha][coluna-1].tipo == 0){
+            if(matriz[linha][coluna-1].aberto == 0){
+              abri_space(matriz,linha,coluna-1);
+            };
+          }
+          if(matriz[linha+1][coluna].tipo == 0){
+            if(matriz[linha+1][coluna].aberto == 0){
+              abri_space(matriz,linha+1,coluna);
+            };
+          }
+          if(matriz[linha+1][coluna-1].tipo == 0){
+            if(matriz[linha+1][coluna-1].aberto == 0){
+              abri_space(matriz,linha+1,coluna-1);
+            };
+          }
+        }
+        else if(linha >0 &&linha <9 && coluna ==0){
+          matriz[linha][coluna].status = matriz[linha][coluna].n_minas + '0';
+          matriz[linha][coluna].aberto =1;
+          matriz[linha-1][coluna].status = matriz[linha-1][coluna].n_minas + '0';
+          matriz[linha+1][coluna].status = matriz[linha+1][coluna].n_minas + '0';
+          matriz[linha][coluna+1].status = matriz[linha][coluna+1].n_minas + '0';
+          matriz[linha+1][coluna+1].status = matriz[linha+1][coluna+1].n_minas + '0';
+          matriz[linha-1][coluna+1].status = matriz[linha-1][coluna+1].n_minas + '0';  
+          
+          if(matriz[linha-1][coluna].tipo == 0){
+            if(matriz[linha-1][coluna].aberto == 0){
+              abri_space(matriz,linha-1,coluna);
+            };
+          }
+          if(matriz[linha+1][coluna].tipo == 0){
+            if(matriz[linha+1][coluna].aberto == 0){
+              abri_space(matriz,linha+1,coluna);
+            };
+          }
+          if(matriz[linha][coluna+1].tipo == 0){
+            if(matriz[linha][coluna+1].aberto == 0){
+              abri_space(matriz,linha,coluna+1);
+            };
+          }
+          if(matriz[linha+1][coluna+1].tipo == 0){
+            if(matriz[linha+1][coluna+1].aberto == 0){
+              abri_space(matriz,linha+1,coluna+1);
+            };
+          }
+          if(matriz[linha-1][coluna+1].tipo == 0){
+            if(matriz[linha-1][coluna+1].aberto == 0){
+              abri_space(matriz,linha-1,coluna+1);
+            };
+          }
+          
+        }
+        else if(linha == 0 && coluna > 0 && coluna <19){
+          matriz[linha][coluna].status = matriz[linha][coluna].n_minas + '0';
+          matriz[linha][coluna].aberto =1;
+          matriz[linha+1][coluna].status = matriz[linha+1][coluna].n_minas + '0';
+          matriz[linha][coluna+1].status = matriz[linha][coluna+1].n_minas + '0';
+          matriz[linha][coluna-1].status = matriz[linha][coluna-1].n_minas + '0';
+          matriz[linha+1][coluna+1].status = matriz[linha+1][coluna+1].n_minas + '0';
+          matriz[linha+1][coluna-1].status = matriz[linha+1][coluna-1].n_minas + '0';    
+          if(matriz[linha+1][coluna].tipo == 0){
+            if(matriz[linha+1][coluna].aberto == 0){
+              abri_space(matriz,linha+1,coluna);
+            };
+          }
+          if(matriz[linha][coluna+1].tipo == 0){
+            if(matriz[linha][coluna+1].aberto == 0){
+              abri_space(matriz,linha,coluna+1);
+            };
+          }
+          if(matriz[linha][coluna-1].tipo == 0){
+            if(matriz[linha][coluna-1].aberto == 0){
+              abri_space(matriz,linha,coluna-1);
+            };
+          }
+          if(matriz[linha+1][coluna+1].tipo == 0){
+            if(matriz[linha+1][coluna+1].aberto == 0){
+              abri_space(matriz,linha+1,coluna+1);
+            };
+          }
+          if(matriz[linha+1][coluna-1].tipo == 0){
+            if(matriz[linha+1][coluna-1].aberto == 0){
+              abri_space(matriz,linha+1,coluna-1);
+            };
+          }
+        }
+        else if(linha == 9 && coluna > 0 && coluna <19){
+          matriz[linha][coluna].status = matriz[linha][coluna].n_minas + '0';
+          matriz[linha][coluna].aberto =1;
+          matriz[linha-1][coluna].status = matriz[linha-1][coluna].n_minas + '0';
+          matriz[linha][coluna-1].status = matriz[linha][coluna-1].n_minas + '0';
+          matriz[linha][coluna+1].status = matriz[linha][coluna+1].n_minas + '0';
+          matriz[linha-1][coluna-1].status = matriz[linha-1][coluna-1].n_minas + '0';
+          matriz[linha-1][coluna+1].status = matriz[linha-1][coluna+1].n_minas + '0';    
+          if(matriz[linha-1][coluna].tipo == 0){
+            if(matriz[linha-1][coluna].aberto == 0){
+              abri_space(matriz,linha-1,coluna);
+            };
+          }
+          if(matriz[linha][coluna-1].tipo == 0){
+            if(matriz[linha][coluna-1].aberto == 0){
+              abri_space(matriz,linha,coluna-1);
+            };
+          }
+          if(matriz[linha][coluna+1].tipo == 0){
+            if(matriz[linha][coluna+1].aberto == 0){
+              abri_space(matriz,linha,coluna+1);
+            };
+          }
+          if(matriz[linha-1][coluna-1].tipo == 0){
+            if(matriz[linha-1][coluna-1].aberto == 0){
+              abri_space(matriz,linha-1,coluna-1);
+            };
+          }
+          if(matriz[linha-1][coluna+1].tipo == 0){
+            if(matriz[linha-1][coluna+1].aberto == 0){
+              abri_space(matriz,linha-1,coluna+1);
             }
-        }          
-        if(matriz[linha][coluna-1].tipo == 0){
-          if(matriz[linha][coluna-1].aberto == 0){
-            abri_space(matriz,linha,coluna-1);
-          }
-        }          
-        if(matriz[linha+1][coluna-1].tipo == 0){
-          if(matriz[linha+1][coluna-1].aberto == 0){
-            abri_space(matriz,linha+1,coluna-1);
-          }
-        }          
-        if(matriz[linha-1][coluna-1].tipo == 0){
-          if(matriz[linha-1][coluna-1].aberto == 0){
-            abri_space(matriz,linha-1,coluna-1);
           }
         }
-      
-    
-    
-    
-    
-    
-    
-    
-    else{
-      matriz[linha][coluna].status = matriz[linha][coluna].n_minas + '0';
-      matriz[linha][coluna].aberto =1;
-      matriz[linha+1][coluna].status = matriz[linha+1][coluna].n_minas + '0';
-      matriz[linha-1][coluna].status = matriz[linha-1][coluna].n_minas + '0';        
-      matriz[linha][coluna+1].status = matriz[linha][coluna+1].n_minas + '0';
-      matriz[linha][coluna-1].status = matriz[linha][coluna-1].n_minas + '0';
-      matriz[linha+1][coluna+1].status = matriz[linha+1][coluna+1].n_minas + '0';
-      matriz[linha+1][coluna-1].status = matriz[linha+1][coluna-1].n_minas + '0';
-      matriz[linha-1][coluna+1].status = matriz[linha-1][coluna+1].n_minas + '0';
-      matriz[linha-1][coluna-1].status = matriz[linha-1][coluna-1].n_minas + '0';    
-      if(matriz[linha-1][coluna].tipo == 0){
-        if(matriz[linha-1][coluna].aberto == 0){
-          abri_space(matriz,linha-1,coluna);
+        else if(linha > 0 && linha <9 && coluna == 19){
+          matriz[linha][coluna].status = matriz[linha][coluna].n_minas + '0';
+          matriz[linha][coluna].aberto =1;
+          matriz[linha-1][coluna].status = matriz[linha-1][coluna].n_minas + '0';
+          matriz[linha+1][coluna].status = matriz[linha+1][coluna].n_minas + '0';
+          matriz[linha][coluna-1].status = matriz[linha][coluna-1].n_minas + '0';
+          matriz[linha+1][coluna-1].status = matriz[linha+1][coluna-1].n_minas + '0';
+          matriz[linha-1][coluna-1].status = matriz[linha-1][coluna-1].n_minas + '0';    
+          if(matriz[linha-1][coluna].tipo == 0){
+            if(matriz[linha-1][coluna].aberto == 0){
+              abri_space(matriz,linha-1,coluna);
+            }
+          }
+          if(matriz[linha+1][coluna].tipo == 0){
+            if(matriz[linha+1][coluna].aberto == 0){
+              abri_space(matriz,linha+1,coluna);
+              }
+          }
+          if(matriz[linha][coluna-1].tipo == 0){
+            if(matriz[linha][coluna-1].aberto == 0){
+              abri_space(matriz,linha,coluna-1);
+            }
+          }
+          if(matriz[linha+1][coluna-1].tipo == 0){
+            if(matriz[linha+1][coluna-1].aberto == 0){
+              abri_space(matriz,linha+1,coluna-1);
+            }
+          }
+          if(matriz[linha-1][coluna-1].tipo == 0){
+            if(matriz[linha-1][coluna-1].aberto == 0){
+              abri_space(matriz,linha-1,coluna-1);
+            }
+          }
         }
-      }
-      if(matriz[linha+1][coluna].tipo == 0){
-        if(matriz[linha+1][coluna].aberto == 0){
-          abri_space(matriz,linha+1,coluna);
+        else{
+          matriz[linha][coluna].status = matriz[linha][coluna].n_minas + '0';
+          matriz[linha][coluna].aberto =1;
+          matriz[linha+1][coluna].status = matriz[linha+1][coluna].n_minas + '0';
+          matriz[linha-1][coluna].status = matriz[linha-1][coluna].n_minas + '0';
+          matriz[linha][coluna+1].status = matriz[linha][coluna+1].n_minas + '0';
+          matriz[linha][coluna-1].status = matriz[linha][coluna-1].n_minas + '0';
+          matriz[linha+1][coluna+1].status = matriz[linha+1][coluna+1].n_minas + '0';
+          matriz[linha+1][coluna-1].status = matriz[linha+1][coluna-1].n_minas + '0';
+          matriz[linha-1][coluna+1].status = matriz[linha-1][coluna+1].n_minas + '0';
+          matriz[linha-1][coluna-1].status = matriz[linha-1][coluna-1].n_minas + '0';    
+          if(matriz[linha-1][coluna].tipo == 0){
+            if(matriz[linha-1][coluna].aberto == 0){
+              abri_space(matriz,linha-1,coluna);
+            }
+          }
+          if(matriz[linha+1][coluna].tipo == 0){
+            if(matriz[linha+1][coluna].aberto == 0){
+              abri_space(matriz,linha+1,coluna);
+            }
+          }
+          if(matriz[linha][coluna-1].tipo == 0){
+            if(matriz[linha][coluna-1].aberto == 0){
+              abri_space(matriz,linha,coluna-1);
+            }
+          }
+          if(matriz[linha][coluna+1].tipo == 0){
+            if(matriz[linha][coluna+1].aberto == 0){
+              abri_space(matriz,linha,coluna+1);
+            }
+          }
+          if(matriz[linha+1][coluna+1].tipo == 0){
+            if(matriz[linha+1][coluna+1].aberto == 0){
+              abri_space(matriz,linha+1,coluna+1);
+            }
+          }
+          if(matriz[linha+1][coluna-1].tipo == 0){
+            if(matriz[linha+1][coluna-1].aberto == 0){
+              abri_space(matriz,linha+1,coluna-1);
+            }
+          }
+          if(matriz[linha-1][coluna+1].tipo == 0){
+            if(matriz[linha-1][coluna+1].aberto == 0){
+              abri_space(matriz,linha-1,coluna+1);
+            }
+          }
+          if(matriz[linha-1][coluna-1].tipo == 0){
+            if(matriz[linha-1][coluna-1].aberto == 0){
+              abri_space(matriz,linha-1,coluna-1);
+            }
+          }
         }
-      }
-      if(matriz[linha][coluna-1].tipo == 0){
-        if(matriz[linha][coluna-1].aberto == 0){
-          abri_space(matriz,linha,coluna-1);
-        }
-      }
-      if(matriz[linha][coluna+1].tipo == 0){
-        if(matriz[linha][coluna+1].aberto == 0){
-          abri_space(matriz,linha,coluna+1);
-        }
-      }
-      if(matriz[linha+1][coluna+1].tipo == 0){
-        if(matriz[linha+1][coluna+1].aberto == 0){
-          abri_space(matriz,linha+1,coluna+1);
-        }
-      }
-      if(matriz[linha+1][coluna-1].tipo == 0){
-        if(matriz[linha+1][coluna-1].aberto == 0){
-          abri_space(matriz,linha+1,coluna-1);
-        }
-      }
-      if(matriz[linha-1][coluna+1].tipo == 0){
-        if(matriz[linha-1][coluna+1].aberto == 0){
-          abri_space(matriz,linha-1,coluna+1);
-        }
-      }
-      if(matriz[linha-1][coluna-1].tipo == 0){
-        if(matriz[linha-1][coluna-1].aberto == 0){
-          abri_space(matriz,linha-1,coluna-1);
-        }
-      }
-    }
    
     return help;
   } else if (matriz[linha][coluna].tipo == 1) {
@@ -1192,8 +1185,8 @@ void modo_ajuda(espaco **matriz, int linha, int coluna) {
   }
 }
 
-int modo_ajuda_auto(espaco **matriz, int linha, int coluna){
-  int aux=0;
+void modo_ajuda_auto(espaco **matriz, int linha, int coluna, int aux){
+  aux=0;
   int cont;
   int cont_b;
   if (linha == 0 && coluna == 0){
@@ -1243,10 +1236,10 @@ int modo_ajuda_auto(espaco **matriz, int linha, int coluna){
       }
     }
     else{
-      aux =1;
+      aux =2;
     }
   }
-  if (linha == 0 && coluna == 19){
+  else if (linha == 0 && coluna == 19){
     cont = 0;
     cont_b = 0;
     if (matriz[linha + 1][coluna].aberto == 0){
@@ -1293,12 +1286,13 @@ int modo_ajuda_auto(espaco **matriz, int linha, int coluna){
       }
     }
     else{
-      aux =1;
+      aux =2;
     }
   }
 
   else if (linha == 9 && coluna == 0) {
     cont = 0;
+    cont_b =0;
     if (matriz[linha][coluna + 1].aberto == 0) {
       cont++;
     }
@@ -1343,12 +1337,13 @@ int modo_ajuda_auto(espaco **matriz, int linha, int coluna){
       }
     } 
     else{
-      aux =1;
+      aux =2;
     }
   } 
   
   else if (linha == 9 && coluna == 19) {
     cont = 0;
+    cont_b=0;
     if (matriz[linha][coluna - 1].aberto == 0) {
       cont++;
     }
@@ -1357,6 +1352,15 @@ int modo_ajuda_auto(espaco **matriz, int linha, int coluna){
     }
     if (matriz[linha - 1][coluna].aberto == 0) {
       cont++;
+    }
+    if (matriz[linha][coluna - 1].aberto == 0) {
+      cont_b++;
+    }
+    if (matriz[linha - 1][coluna - 1].aberto == 0) {
+      cont_b++;
+    }
+    if (matriz[linha - 1][coluna].aberto == 0) {
+      cont_b++;
     }
     if(cont_b == matriz[linha][coluna].n_minas){
       if (matriz[linha][coluna - 1].aberto == 0) {
@@ -1383,13 +1387,14 @@ int modo_ajuda_auto(espaco **matriz, int linha, int coluna){
         matriz[linha - 1][coluna ].status = 'B';
       }
     }else{
-      aux =1;
+      aux =2;
     }
   }
 
 
   else if (linha > 0 && linha < 9 && coluna == 0){
     cont = 0;
+    cont_b=0;
      if(matriz[linha - 1][coluna].aberto==0){
       cont++;
     }
@@ -1404,6 +1409,21 @@ int modo_ajuda_auto(espaco **matriz, int linha, int coluna){
     }
     if (matriz[linha - 1][coluna +1].aberto == 0){
       cont++;
+    }
+    if(matriz[linha - 1][coluna].aberto==0){
+      cont_b++;
+    }
+    if(matriz[linha + 1][coluna].aberto == 0){
+      cont_b++;
+    }
+    if (matriz[linha][coluna + 1].aberto == 0){
+      cont_b++;
+    }
+    if (matriz[linha + 1][coluna +1].aberto == 0){
+      cont_b++;
+    }
+    if (matriz[linha - 1][coluna +1].aberto == 0){
+      cont_b++;
     }
 
     if(cont_b == matriz[linha][coluna].n_minas){
@@ -1445,12 +1465,13 @@ int modo_ajuda_auto(espaco **matriz, int linha, int coluna){
         matriz[linha-1][coluna + 1].status = 'B';
       }
     } else{
-      aux =1;
+      aux =2;
     }  
   }
 
   else if (linha == 0 && coluna > 0 && coluna < 19){
     cont = 0;
+    cont_b =0;
     if (matriz[linha + 1][coluna].aberto == 0){
       cont++;
     }
@@ -1465,6 +1486,21 @@ int modo_ajuda_auto(espaco **matriz, int linha, int coluna){
     }
     if (matriz[linha + 1][coluna - 1].aberto == 0){
       cont++;
+    }
+    if (matriz[linha + 1][coluna].aberto == 0){
+      cont_b++;
+    }
+    if (matriz[linha][coluna + 1].aberto == 0){
+      cont_b++;
+    }
+    if (matriz[linha][coluna - 1].aberto == 0){
+      cont_b++;
+    }
+    if (matriz[linha + 1][coluna + 1].aberto == 0){
+      cont_b++;
+    }
+    if (matriz[linha + 1][coluna - 1].aberto == 0){
+      cont_b++;
     }
     
     if(cont_b == matriz[linha][coluna].n_minas){
@@ -1507,13 +1543,14 @@ int modo_ajuda_auto(espaco **matriz, int linha, int coluna){
       }
     }
     else{
-      aux =1;
+      aux =2;
     }
     
   }
 
   else if (linha == 9 && coluna > 0 && coluna < 19){
     cont = 0;
+    cont_b=0;
     if (matriz[linha - 1][coluna].aberto == 0){
        cont++;
     }
@@ -1528,6 +1565,21 @@ int modo_ajuda_auto(espaco **matriz, int linha, int coluna){
     }
     if (matriz[linha - 1][coluna + 1].aberto == 0){
       cont++;
+    }
+    if (matriz[linha - 1][coluna].aberto == 0){
+       cont_b++;
+    }
+    if (matriz[linha][coluna - 1].aberto == 0){
+      cont_b++;
+    }
+    if(matriz[linha][coluna + 1].aberto == 0) {
+      cont_b++;
+    }
+    if(matriz[linha - 1][coluna - 1].aberto == 0){
+      cont_b++;
+    }
+    if (matriz[linha - 1][coluna + 1].aberto == 0){
+      cont_b++;
     }
     if(cont_b == matriz[linha][coluna].n_minas){
       if (matriz[linha - 1][coluna].aberto == 0){
@@ -1569,12 +1621,13 @@ int modo_ajuda_auto(espaco **matriz, int linha, int coluna){
       }
     }
     else{
-      aux =1;
+      aux =2;
     }
   }
 
   else if (linha > 0 && linha < 9 && coluna == 19){
     cont = 0;
+    cont_b=0;
     if (matriz[linha - 1][coluna].aberto == 0){
       cont++;
     }
@@ -1589,6 +1642,22 @@ int modo_ajuda_auto(espaco **matriz, int linha, int coluna){
     }
     if(matriz[linha - 1][coluna - 1].aberto == 0){
       cont++;
+    }
+
+     if (matriz[linha - 1][coluna].aberto == 0){
+      cont_b++;
+    }
+    if (matriz[linha + 1][coluna].aberto == 0){
+      cont_b++;
+    }
+    if (matriz[linha][coluna - 1].aberto == 0){
+      cont_b++;
+    }
+    if (matriz[linha + 1][coluna - 1].aberto == 0){
+      cont_b++;
+    }
+    if(matriz[linha - 1][coluna - 1].aberto == 0){
+      cont_b++;
     }
 
     if(cont_b == matriz[linha][coluna].n_minas){
@@ -1631,12 +1700,13 @@ int modo_ajuda_auto(espaco **matriz, int linha, int coluna){
       }
     }
     else{
-      aux =1;
+      aux =2;
     }
 
   }
   else{
     cont = 0;
+    cont_b=0;
     if (matriz[linha - 1][coluna].aberto == 0){
       cont++;
     }
@@ -1661,8 +1731,33 @@ int modo_ajuda_auto(espaco **matriz, int linha, int coluna){
     if (matriz[linha + 1][coluna + 1].aberto == 0){
       cont++;
     }
+
+     if (matriz[linha - 1][coluna].aberto == 0){
+      cont_b++;
+    }
+    if (matriz[linha + 1][coluna].aberto == 0){
+      cont_b++;
+    }
+    if (matriz[linha][coluna - 1].aberto == 0){
+      cont_b++;
+    }
+    if(matriz[linha][coluna + 1].aberto == 0) {
+      cont_b++;
+    }
+    if (matriz[linha + 1][coluna - 1].aberto == 0){
+      cont_b++;
+    }
+    if(matriz[linha - 1][coluna - 1].aberto == 0){
+      cont_b++;
+    }
+    if (matriz[linha - 1][coluna + 1].aberto == 0){
+      cont_b++;
+    }
+    if (matriz[linha + 1][coluna + 1].aberto == 0){
+      cont_b++;
+    }
     
-    if(cont > matriz[linha][coluna].n_minas){
+    if(cont_b == matriz[linha][coluna].n_minas){
       if (matriz[linha - 1][coluna].aberto == 0){
         aux = abri_space(matriz,linha-1,coluna);
       }
@@ -1688,7 +1783,7 @@ int modo_ajuda_auto(espaco **matriz, int linha, int coluna){
         aux = abri_space(matriz,linha+1,coluna+1);
       }
     }
-    else if(cont == matriz[linha][coluna].n_minas){ // espaços que provavelmente são bombas
+    else if(cont + cont_b == matriz[linha][coluna].n_minas){ // espaços que provavelmente são bombas
       if (matriz[linha - 1][coluna].aberto == 0){
         matriz[linha - 1][coluna].aberto = 1;
         matriz[linha - 1][coluna ].status = 'B';
@@ -1723,11 +1818,11 @@ int modo_ajuda_auto(espaco **matriz, int linha, int coluna){
       }
     }
     else{
-      aux =1;
+      aux =2;
     }
   }
   
-  return aux;
+ 
 }
 
 
@@ -1752,10 +1847,9 @@ void jogar_auto(espaco **matriz){
   int l;
   int c;
   int aux = 0;
-  int implemen = 0;
   int contador = 0;
   int n_bombas = 40;
-  int retorno_do_auto=0;
+  
   time_t inicial = time(NULL);
   printf("Numero de bombas não marcadas: %d\n", n_bombas); // Aparecera na primeira jogada e toda vez que ele marcar bomba.
   print_matriz_status(matriz);
@@ -1763,7 +1857,7 @@ void jogar_auto(espaco **matriz){
   printf("\n");
   
   while (aux == 0 || contador < 160) {
-    if(implemen == 0){
+    /*if(implemen == 0){
       l = rand() %10;
       c = rand() % 20;
       implementacao(matriz,l,c);
@@ -1774,57 +1868,63 @@ void jogar_auto(espaco **matriz){
       printf("\n");
       implemen++;
     }
-    
-    if(contador<= 1){
-      l = rand() %10;
-      c = rand() % 20;
-      abri_space(matriz,l,c);
+    */
+    contador = verif_ced_abertas(matriz);
+  
+    while(contador < 3){
+    l = rand() %10;
+    c = rand() %20;
+    aux = abri_space(matriz,l,c);
+    contador = verif_ced_abertas(matriz);
     }
-    else if(contador <160 && contador >1){
-      for(int i=0;i<10;i++){
-        for(int j=0;j<20;j++){
-          if(matriz[i][j].aberto == 1){
-            if(modo_ajuda_auto(matriz,i,j)==1){
-              retorno_do_auto=1;
-            }
-          }
+    int retorno_do_auto=0;
+    
+    for(int i=0;i<10;i++){
+      for(int j=0;j<20;j++){
+        if(matriz[i][j].aberto == 1){ 
+          modo_ajuda_auto(matriz,i,j,retorno_do_auto);   
+          contador = verif_ced_abertas(matriz);
         }
       }
-      if(retorno_do_auto==1){
-        l = rand() %10;
-        c = rand() % 20;
-        abri_space(matriz,l,c);
-      }
+    }
+    
+    contador = verif_ced_abertas(matriz);
+    if(retorno_do_auto==2){
+      l = rand() %10;
+      c = rand() % 20;
+      aux = abri_space(matriz,l,c);
+    }
+    contador = verif_ced_abertas(matriz);
+    
+    if(contador >= 160){        
+      printf("PARABENS VOCÊ GANHOU!!!!\n"); //Se o jogador conseguir desbloquear 160 cedulas sem clicar em nenhuma bomba ele vence o jogo.
+      printf("Tempo de jogo: ");
+      verif_tempo(inicial);
+      printf("\n");
+      break;
     }
     else{
-      if(contador >= 160){        
-        printf("PARABENS VOCÊ GANHOU!!!!\n"); //Se o jogador conseguir desbloquear 160 cedulas sem clicar em nenhuma bomba ele vence o jogo.
+      printf(" %d no momento\n", contador);
+      
+      if (aux == 0) {
+        print_matriz_status(matriz);
+        printf("\n");
+        printf("\n");
+      } 
+      else {
+        printf("BOOM\n");
+        print_matriz_status(matriz);
+        verif_tempo(inicial);
+        printf("PERDEU\n");
         printf("Tempo de jogo: ");
         verif_tempo(inicial);
         printf("\n");
         break;
       }
-      else{
-        printf(" %d no momento\n", contador);
-      
-        if (aux == 0) {
-          print_matriz_status(matriz);
-          printf("\n");
-          printf("\n");
-      } else {
-          printf("BOOM\n");
-          print_matriz_status(matriz);
-          verif_tempo(inicial);
-          printf("PERDEU\n");
-          printf("Tempo de jogo: ");
-          verif_tempo(inicial);
-          printf("\n");
-        break;
-        }
-      }
     }
   }
 }
+
  
 
 
@@ -1845,7 +1945,6 @@ void jogar(espaco **matriz) {
   printf("\n");
   
   while (aux == 0 || contador < 160) {
-    
     printf("Tiro, bomba, tempo ou ajuda? ");
     scanf("%s", select);
     printf("\n");
@@ -1885,45 +1984,41 @@ void jogar(espaco **matriz) {
         implemen++;
       }
       else{
-      scanf("%d", &l);
-      scanf("%d", &c);
-      printf("\n");
-      aux = abri_space(matriz, l, c);
-      contador = verif_ced_abertas(matriz);
-      if(contador >= 160){
+        scanf("%d", &l);
+        scanf("%d", &c);
+        printf("\n");
+        aux = abri_space(matriz, l, c);
+        contador = verif_ced_abertas(matriz);
+        if(contador >= 160){
         
-        printf("PARABENS VOCÊ GANHOU!!!!\n"); //Se o jogador conseguir desbloquear 160 cedulas sem clicar em nenhuma bomba ele vence o jogo.
-        printf("Tempo de jogo: ");
-        verif_tempo(inicial);
-        printf("\n");
-        break;
-      }
-      else{
-        printf(" %d no momento\n", contador);
+          printf("PARABENS VOCÊ GANHOU!!!!\n"); //Se o jogador conseguir desbloquear 160 cedulas sem clicar em nenhuma bomba ele vence o jogo.
+          printf("Tempo de jogo: ");
+          verif_tempo(inicial);
+          printf("\n");
+          break;
+        }
+        else{
+          printf(" %d no momento\n", contador);
       
-        if (aux == 0) {
-        print_matriz_status(matriz);
-        printf("\n");
-        printf("\n");
-      } else {
-        printf("BOOM\n");
-        print_matriz_status(matriz);
-        verif_tempo(inicial);
-        printf("PERDEU\n");
-        printf("Tempo de jogo: ");
-        verif_tempo(inicial);
-        printf("\n");
-        break;
+          if (aux == 0) {
+          print_matriz_status(matriz);
+          printf("\n");
+          printf("\n");
+          } 
+          else {
+          printf("BOOM\n");
+          print_matriz_status(matriz);
+          verif_tempo(inicial);
+          printf("PERDEU\n");
+          printf("Tempo de jogo: ");
+          verif_tempo(inicial);
+          printf("\n");
+          break;
+          }
+        }
       }
-
-      }
-
-      }
-
-      
     }
   }
- 
 }
 
 
