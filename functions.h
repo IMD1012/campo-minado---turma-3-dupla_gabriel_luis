@@ -13,7 +13,7 @@ void cria_camp_min(int *vet_rand, espaco **matriz);
 int abri_space(espaco **matriz, int linha, int coluna);
 int verif_ced_abertas(espaco **matriz);
 void modo_ajuda(espaco **matriz, int linha, int coluna);
-void modo_ajuda_auto(espaco **matriz, int linha, int coluna, int aux);
+int modo_ajuda_auto(espaco **matriz, int linha, int coluna, int re_);
 void implementacao(espaco **matriz,int linha, int coluna);
 void jogar(espaco **matriz);
 void menu(espaco **matriz, int *vet_rand);
