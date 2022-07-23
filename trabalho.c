@@ -13,7 +13,7 @@ int main() {
   espaco **matriz;
   int *vet_rand;
   manual = fopen("instrucoes.txt", "r");
-  while(fgets(texto_manual,700,manual)!= NULL){
+  while(fgets(texto_manual,1100,manual)!= NULL){
     printf("%s", texto_manual);
   }
   fclose(manual);
