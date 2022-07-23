@@ -1,6 +1,4 @@
 
-
-
 Bem vindo ao nosso jogo campo minado :)  !!!!!!
 
 No jogo haverá 40 bombas espalhadas em um campo de 10x20.
@@ -19,9 +17,11 @@ O player também terá a possibilidade de checar o tempo decorrido desdá sua pr
 
 Com todas instruções básicas ditas, BOA SORTE!!!
 
+Exemplo de como jogar:
+O jogo pergunta "Tiro, bomba, tempo ou ajuda? "!!
+Exemplo de resposta do usuario:
+"tiro 1 6" ,  " ajuda 1 5"
 
-
-
-
-
-
+Os numeros ao lado da Ação escolhida pelo jogador representa a celula em que será realizada a ação!!
+Para pedir ajuda é preciso selecionar uma posição já aberta!!
+Para pedir o tempo não é necessário colocar posições!
